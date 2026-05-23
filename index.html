@@ -1,0 +1,3942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYNCSHOT | Precision Meets Power</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ========== Reset & Variables ========== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --orange: #ff6b2c;
+            --orange-light: #ff8f5c;
+            --orange-dark: #e54d00;
+            --cyan: #00e5ff;
+            --cyan-light: #5ef7ff;
+            --cyan-dark: #00b8cc;
+            --purple: #a855f7;
+            --bg-dark: #0a0a0f;
+            --bg-darker: #050508;
+            --bg-card: #12121a;
+            --bg-card-hover: #1a1a26;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0b8;
+            --text-muted: #6b6b80;
+            --gradient-fire: linear-gradient(135deg, #ff6b2c, #ff3d00);
+            --gradient-ice: linear-gradient(135deg, #00e5ff, #0088cc);
+            --gradient-sunset: linear-gradient(135deg, #ff6b2c, #a855f7);
+            --shadow-orange: 0 0 40px rgba(255, 107, 44, 0.2);
+            --shadow-cyan: 0 0 40px rgba(0, 229, 255, 0.2);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-display: 'Bebas Neue', 'Oswald', sans-serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        html { scroll-behavior: smooth; font-size: 16px; }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ========== Particle Background ========== */
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; }
+
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+        ::selection { background: var(--orange); color: var(--bg-dark); }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background: var(--orange); border-radius: 3px; }
+
+        /* ========== Navigation ========== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 20px 0;
+            transition: var(--transition);
+        }
+
+        .navbar.scrolled {
+            padding: 12px 0;
+            background: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 107, 44, 0.1);
+        }
+
+        .navbar .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            background: var(--gradient-fire);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links { display: flex; align-items: center; gap: 36px; }
+
+        .nav-links a {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-fire);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover { color: var(--orange); }
+        .nav-links a:hover::after { width: 100%; }
+
+        .nav-cta {
+            padding: 12px 28px;
+            background: var(--gradient-fire);
+            color: white !important;
+            border-radius: 50px;
+            font-weight: 700 !important;
+            font-size: 0.75rem !important;
+            letter-spacing: 1.5px !important;
+            transition: var(--transition);
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-orange);
+        }
+
+        .nav-cta::after { display: none !important; }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .menu-toggle span {
+            width: 24px;
+            height: 2px;
+            background: var(--orange);
+            transition: var(--transition);
+        }
+
+        /* ========== Hero ========== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 300px;
+            background: linear-gradient(to bottom, transparent 0%, transparent 20%, var(--bg-dark) 100%);
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+
+        .hero-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: 30% center;
+            opacity: 0.45;
+            filter: blur(0.3px);
+            transform: scale(1.0);
+        }
+
+        .hero-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 100% 100% at 50% 50%, transparent 30%, rgba(10,10,15,0.5) 85%, rgba(10,10,15,0.85) 100%);
+        }
+
+        /* Animated gradient orbs */
+        .hero-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: orbFloat 8s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        .hero-orb.orange {
+            width: 400px;
+            height: 400px;
+            background: var(--orange);
+            top: 10%;
+            right: 10%;
+        }
+
+        .hero-orb.cyan {
+            width: 300px;
+            height: 480px;
+            background: var(--cyan);
+            bottom: 20%;
+            left: 5%;
+            animation-delay: 4s;
+        }
+
+        @keyframes orbFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(30px, -30px) scale(1.1); }
+        }
+
+        .hero .container {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-content { animation: fadeInUp 1s ease-out; }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            background: rgba(255, 107, 44, 0.1);
+            border: 1px solid rgba(255, 107, 44, 0.3);
+            border-radius: 50px;
+            font-size: 0.75rem;
+            color: var(--orange);
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+
+        .hero-badge .dot {
+            width: 6px;
+            height: 6px;
+            background: var(--orange);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.5); }
+        }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: 5.5rem;
+            font-weight: 700;
+            line-height: 0.95;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        .hero h1 .orange {
+            background: var(--gradient-fire);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero h1 .cyan {
+            background: var(--gradient-ice);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-tagline {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+            font-weight: 400;
+            line-height: 1.8;
+            max-width: 480px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 16px 36px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            font-family: var(--font-body);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 按钮波纹效果 */
+        .btn .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(0);
+            animation: rippleEffect 0.6s linear;
+            pointer-events: none;
+        }
+
+        @keyframes rippleEffect {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        .btn-fire {
+            background: var(--gradient-fire);
+            color: white;
+            background-size: 200% 200%;
+            animation: gradientFlow 3s ease infinite;
+        }
+
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .btn-fire:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-orange);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 48px;
+            margin-top: 56px;
+            padding-top: 32px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .stat-item h3 {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--gradient-fire);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+        }
+
+        .stat-item p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .hero-visual {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            animation: fadeInRight 1s ease-out 0.3s both;
+        }
+
+        .hero-image-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .hero-image-wrapper img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .floating-badge {
+            position: absolute;
+            background: rgba(18, 18, 26, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 107, 44, 0.2);
+            border-radius: 16px;
+            padding: 16px 20px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-badge.badge-1 {
+            bottom: 245px;
+            left: 20px;
+        }
+
+        .floating-badge.badge-2 {
+            bottom: 245px;
+            right: 20px;
+            animation-delay: 2s;
+        }
+
+        .floating-badge .fb-label {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .floating-badge .fb-value {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-top: 4px;
+        }
+
+        .floating-badge .fb-value.orange { color: var(--orange); }
+        .floating-badge .fb-value.cyan { color: var(--cyan); }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* ========== Section Common ========== */
+        .section { padding: 100px 0; position: relative; }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 45px;
+        }
+
+        .section-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.75rem;
+            color: var(--orange);
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .section-tag::before,
+        .section-tag::after {
+            content: '';
+            width: 30px;
+            height: 1px;
+            background: var(--orange);
+            opacity: 0.5;
+        }
+
+        .section-header h2 {
+            font-family: var(--font-display);
+            font-size: 3.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
+
+        .section-header p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ========== Products ========== */
+        .products {
+            background: linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-darker) 100%);
+            padding-top: 60px;
+            position: relative;
+        }
+
+        .products::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--orange), var(--cyan), transparent);
+            border-radius: 2px;
+            box-shadow: 0 0 20px rgba(255, 107, 44, 0.3), 0 0 40px rgba(0, 210, 255, 0.15);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+        }
+
+        .product-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+        }
+
+        /* 卡片边缘发光效果 */
+        .product-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 20px;
+            padding: 1px;
+            background: linear-gradient(135deg, transparent 40%, rgba(255, 107, 44, 0) 50%, transparent 60%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.5s ease, background 0.5s ease;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255, 107, 44, 0.3);
+            box-shadow: var(--shadow-orange), 0 0 60px rgba(255, 107, 44, 0.15);
+        }
+
+        .product-card:hover::before {
+            opacity: 1;
+            background: linear-gradient(135deg, transparent 20%, rgba(255, 107, 44, 0.6) 50%, transparent 80%);
+            animation: borderGlow 2s linear infinite;
+        }
+
+        @keyframes borderGlow {
+            0% { background: linear-gradient(135deg, transparent 20%, rgba(255, 107, 44, 0.6) 50%, transparent 80%); }
+            50% { background: linear-gradient(135deg, transparent 20%, rgba(0, 229, 255, 0.6) 50%, transparent 80%); }
+            100% { background: linear-gradient(135deg, transparent 20%, rgba(255, 107, 44, 0.6) 50%, transparent 80%); }
+        }
+
+        .product-image {
+            position: relative;
+            height: 480px;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.08);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .badge-pro {
+            background: var(--gradient-fire);
+            color: white;
+        }
+
+        .badge-new {
+            background: var(--gradient-ice);
+            color: var(--bg-dark);
+        }
+
+        .badge-hot {
+            background: var(--gradient-sunset);
+            color: white;
+        }
+
+        .product-info { padding: 24px; }
+
+        .product-category {
+            font-size: 0.7rem;
+            color: var(--orange);
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .product-name {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .product-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+
+        .product-specs {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .spec {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.03);
+            padding: 4px 10px;
+            border-radius: 4px;
+        }
+
+        .spec span { color: var(--text-secondary); font-weight: 600; }
+
+        .product-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .product-price {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: var(--gradient-fire);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .product-action {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(255, 107, 44, 0.1);
+            border: 1px solid rgba(255, 107, 44, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--orange);
+            font-size: 1.2rem;
+        }
+
+        .product-action:hover {
+            background: var(--gradient-fire);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        /* ========== Story Section ========== */
+        .story {
+            background: var(--bg-dark);
+            overflow: hidden;
+        }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .story-image {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .story-image img {
+            width: 100%;
+            height: 600px;
+            object-fit: cover;
+            
+            border-radius: 20px;
+        }
+
+        .story-image::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 20px;
+            border: 2px solid var(--orange);
+            opacity: 0.2;
+            transform: translate(16px, 16px);
+            z-index: -1;
+        }
+
+        .story-content h3 {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .story-content h3 .orange {
+            background: var(--gradient-fire);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .story-content p {
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            line-height: 1.9;
+            font-size: 0.95rem;
+        }
+
+        .story-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 36px;
+        }
+
+        .feature-item {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .feature-icon.orange { background: rgba(255, 107, 44, 0.15); }
+        .feature-icon.cyan { background: rgba(0, 229, 255, 0.15); }
+        .feature-icon.purple { background: rgba(168, 85, 247, 0.15); }
+
+        .feature-item h4 {
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .feature-item p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 0;
+            line-height: 1.5;
+        }
+
+        /* ========== Process Section ========== */
+        .process {
+            background: linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-darker) 100%);
+        }
+
+        .process-timeline {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+            position: relative;
+        }
+
+        .process-timeline::before {
+            content: '';
+            position: absolute;
+            top: 44px;
+            left: 12.5%;
+            right: 12.5%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--orange), var(--cyan), var(--purple), var(--orange));
+            opacity: 0.3;
+        }
+
+        .process-step {
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 2px solid rgba(255, 107, 44, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--orange);
+            position: relative;
+            z-index: 1;
+            transition: var(--transition);
+        }
+
+        .process-step:hover .step-number {
+            background: var(--gradient-fire);
+            color: white;
+            transform: scale(1.15);
+            box-shadow: var(--shadow-orange);
+        }
+
+        .process-step h4 {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .process-step p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ========== Testimonials ========== */
+        .testimonials { background: var(--bg-dark); }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+        }
+
+        .testimonial-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: var(--transition);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .testimonial-card:hover {
+            border-color: rgba(255, 107, 44, 0.2);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-orange);
+        }
+
+        .testimonial-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 8px;
+        }
+
+        .testimonial-card-left {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .testimonial-product-preview {
+            width: 140px;
+            height: 140px;
+            flex-shrink: 0;
+            background: #0d0d14;
+            border-radius: 14px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            position: relative;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .testimonial-card:hover .testimonial-product-preview {
+            border-color: rgba(255, 107, 44, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .testimonial-product-preview img {
+            width: 100%;
+            height: 90px;
+            object-fit: contain;
+            padding: 8px 10px 0;
+            transition: transform 0.3s ease;
+        }
+
+        .testimonial-product-preview:hover img {
+            transform: scale(1.05);
+        }
+
+        .testimonial-product-preview .zoom-icon {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            width: 22px;
+            height: 22px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 2;
+        }
+
+        .testimonial-product-preview:hover .zoom-icon {
+            opacity: 1;
+        }
+
+        .testimonial-product-preview .zoom-icon svg {
+            width: 12px;
+            height: 12px;
+            fill: none;
+            stroke: #fff;
+            stroke-width: 2;
+        }
+
+        .testimonial-shop-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            width: 100%;
+            padding: 6px 0;
+            background: linear-gradient(135deg, #ff9900, #ff6600);
+            color: #fff;
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-family: var(--font-body);
+        }
+
+        .testimonial-shop-btn:hover {
+            background: linear-gradient(135deg, #ffad33, #ff7733);
+            box-shadow: 0 2px 12px rgba(255, 153, 0, 0.4);
+        }
+
+        .testimonial-shop-btn svg {
+            width: 12px;
+            height: 12px;
+            fill: #fff;
+        }
+
+        .amazon-verified {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 3px 10px;
+            background: rgba(255, 153, 0, 0.1);
+            border: 1px solid rgba(255, 153, 0, 0.2);
+            border-radius: 50px;
+            font-size: 0.6rem;
+            color: #ff9900;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+
+        .amazon-verified svg {
+            width: 10px;
+            height: 10px;
+            fill: #ff9900;
+        }
+
+        .testimonial-quote {
+            font-size: 2rem;
+            line-height: 1;
+            margin-bottom: 12px;
+            background: var(--gradient-fire);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .testimonial-text {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 20px;
+            font-style: italic;
+            flex: 1;
+            max-height: 4.6em;
+            overflow: hidden;
+            position: relative;
+            transition: max-height 0.4s ease;
+        }
+
+        .testimonial-text::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 30px;
+            background: linear-gradient(transparent, var(--bg-card));
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .testimonial-card:hover .testimonial-text {
+            max-height: 500px;
+        }
+
+        .testimonial-card:hover .testimonial-text::after {
+            opacity: 0;
+        }
+
+        .testimonial-review-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .testimonial-review-title .title-text {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .testimonial-review-title .expand-hint {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            font-weight: 400;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .testimonial-card:hover .testimonial-review-title .expand-hint {
+            opacity: 1;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .author-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.95rem;
+            flex-shrink: 0;
+        }
+
+        .avatar-1 { background: var(--gradient-fire); color: white; }
+        .avatar-2 { background: var(--gradient-ice); color: var(--bg-dark); }
+        .avatar-3 { background: var(--gradient-sunset); color: white; }
+
+        .author-info h4 {
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .author-info p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .author-info .verified-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            color: #ff9900;
+            font-size: 0.65rem;
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        .author-info .verified-badge svg {
+            width: 11px;
+            height: 11px;
+            fill: #ff9900;
+        }
+
+        .testimonial-rating {
+            display: flex;
+            gap: 3px;
+            margin-bottom: 8px;
+        }
+
+        .star { color: var(--orange); font-size: 0.85rem; }
+
+        /* ========== CTA Section ========== */
+        .cta-section { padding: 80px 0; background: var(--bg-dark); }
+
+        .cta-box {
+            background: linear-gradient(135deg, rgba(255, 107, 44, 0.08) 0%, rgba(0, 229, 255, 0.08) 100%);
+            border-radius: 30px;
+            padding: 80px 60px;
+            text-align: center;
+            border: 1px solid rgba(255, 107, 44, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 50%, rgba(255, 107, 44, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 50%, rgba(0, 229, 255, 0.05) 0%, transparent 50%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .cta-box > * { position: relative; z-index: 1; }
+
+        .cta-box h2 {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+        }
+
+        .cta-box p {
+            color: var(--text-secondary);
+            margin-bottom: 36px;
+            font-size: 1.05rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        /* ========== Footer ========== */
+        .footer {
+            background: var(--bg-darker);
+            padding: 60px 0 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-brand .logo {
+            margin-bottom: 16px;
+            display: inline-block;
+        }
+
+        .footer-brand p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 12px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            cursor: pointer;
+            color: var(--text-muted);
+            text-decoration: none;
+        }
+
+        .social-link:hover {
+            background: var(--gradient-fire);
+            border-color: transparent;
+            transform: translateY(-3px);
+        }
+
+        .footer-column h4 {
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            color: var(--orange);
+        }
+
+        .footer-column a {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            padding: 6px 0;
+            transition: var(--transition);
+        }
+
+        .footer-column a:hover {
+            color: var(--orange);
+            transform: translateX(4px);
+        }
+
+        .footer-bottom {
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-bottom p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .footer-bottom-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-bottom-links a {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            transition: var(--transition);
+        }
+
+        .footer-bottom-links a:hover { color: var(--orange); }
+
+        /* ========== Back to Top ========== */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--gradient-fire);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: 700;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            z-index: 100;
+            border: none;
+            box-shadow: var(--shadow-orange);
+        }
+
+        .back-to-top.visible { opacity: 1; visibility: visible; }
+
+        .back-to-top:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(255, 107, 44, 0.4);
+        }
+
+        /* ========== Mobile Nav ========== */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 10, 15, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 999;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 28px;
+        }
+
+        .mobile-nav.open { display: flex; }
+
+        .mobile-nav a {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: var(--transition);
+        }
+
+        .mobile-nav a:hover { color: var(--orange); }
+
+        .mobile-nav-close {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--orange);
+            background: none;
+            border: none;
+        }
+
+        /* ========== Reveal Animation ========== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ========== Responsive ========== */
+        @media (max-width: 1024px) {
+            .hero .container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-tagline { margin: 0 auto 32px; }
+            .hero-buttons { justify-content: center; }
+            .hero-stats { justify-content: center; }
+            .hero-visual { display: none; }
+
+            .products-grid { grid-template-columns: repeat(2, 1fr); }
+            .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
+
+            .testimonial-product-preview {
+                width: 120px;
+                height: 120px;
+            }
+            .testimonial-product-preview img {
+                height: 76px;
+            }
+
+            .story-grid { grid-template-columns: 1fr; }
+            .process-timeline { grid-template-columns: repeat(2, 1fr); gap: 40px; }
+            .process-timeline::before { display: none; }
+
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .menu-toggle { display: flex; }
+
+            .hero h1 { font-size: 3.5rem; }
+
+            .products-grid { grid-template-columns: 1fr; }
+            .testimonials-grid { grid-template-columns: 1fr; }
+
+            .testimonial-card-header {
+                flex-direction: column;
+            }
+            .testimonial-product-preview {
+                width: 100%;
+                height: auto;
+                flex-direction: row;
+                padding: 10px;
+                gap: 10px;
+            }
+            .testimonial-product-preview img {
+                width: 80px;
+                height: 60px;
+                padding: 0;
+            }
+            .testimonial-shop-btn {
+                flex: 1;
+                padding: 10px 12px;
+                font-size: 0.7rem;
+                border-radius: 8px;
+            }
+
+            .process-timeline { grid-template-columns: 1fr; }
+            .story-features { grid-template-columns: 1fr; }
+
+            .cta-box { padding: 48px 24px; }
+            .cta-box h2 { font-size: 2rem; }
+
+            .footer-grid { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+        }
+
+
+        /* ========== Hero Carousel ========== */
+        .hero-carousel {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            overflow: hidden;
+            border-radius: 20px;
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            position: relative;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            display: block;
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(18, 18, 26, 0.7);
+            backdrop-filter: blur(10px);
+            color: #ffffff;
+            font-size: 1.4rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 10;
+            opacity: 0;
+        }
+
+        .hero-carousel:hover .carousel-btn {
+            opacity: 1;
+        }
+
+        .carousel-btn:hover {
+            background: var(--orange);
+            box-shadow: 0 0 20px rgba(255, 107, 44, 0.4);
+        }
+
+        .carousel-btn.prev {
+            left: 12px;
+        }
+
+        .carousel-btn.next {
+            right: 12px;
+        }
+
+        .carousel-dots {
+            position: absolute;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+        }
+
+        .carousel-dot {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 0;
+        }
+
+        .carousel-dot.active {
+            background: var(--orange);
+            box-shadow: 0 0 10px rgba(255, 107, 44, 0.5);
+            transform: scale(1.2);
+        }
+
+        .carousel-dot:hover {
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        .carousel-dot.active:hover {
+            background: var(--orange);
+        }
+
+        /* ========== Series Accent Colors ========== */
+        .series-carbon .section-tag { color: var(--orange); }
+        .series-carbon .section-tag::before,
+        .series-carbon .section-tag::after { background: var(--orange); }
+        .series-carbon .product-category { color: var(--orange); }
+        .series-carbon .product-price {
+            background: var(--gradient-fire);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .series-carbon .product-action {
+            background: rgba(255, 107, 44, 0.1); border-color: rgba(255, 107, 44, 0.3); color: var(--orange);
+        }
+        .series-carbon .product-action:hover { background: var(--gradient-fire); color: white; }
+        .series-carbon .product-card:hover { border-color: rgba(255, 107, 44, 0.3); box-shadow: var(--shadow-orange); }
+
+        .series-member .section-tag { color: #00e5ff; }
+        .series-member .section-tag::before,
+        .series-member .section-tag::after { background: #00e5ff; }
+        .series-member .product-category { color: #00e5ff; }
+        .series-member .product-price {
+            background: linear-gradient(135deg, #00e5ff, #0088cc);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .series-member .product-action {
+            background: rgba(0, 229, 255, 0.1); border-color: rgba(0, 229, 255, 0.3); color: #00e5ff;
+        }
+        .series-member .product-action:hover { background: linear-gradient(135deg, #00e5ff, #0088cc); color: white; }
+        .series-member .product-card:hover { border-color: rgba(0, 229, 255, 0.3); box-shadow: 0 0 40px rgba(0, 229, 255, 0.2); }
+        /* Professional Cue Smooth Carousel */
+        .series-member .product-image img {
+            transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .series-member .image-dot {
+            width: 22px !important;
+            height: 22px !important;
+            border: 2px solid rgba(255,255,255,0.6) !important;
+            background: rgba(255,255,255,0.4) !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            box-shadow: 0 0 0 0 rgba(212, 168, 83, 0);
+        }
+        .series-member .image-dot.active,
+        .series-member .image-dot:hover {
+            background: #d4a853 !important;
+            transform: scale(1.3);
+            box-shadow: 0 0 8px rgba(212, 168, 83, 0.5);
+        }
+        /* Shop Now Icon Button */
+        .btn-shop-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #d4a853, #b8860b);
+            color: #fff;
+            text-decoration: none;
+            font-size: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(212, 168, 83, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-shop-icon::before {
+            content: '';
+            display: block;
+            width: 18px;
+            height: 18px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z'/%3E%3Cline x1='3' y1='6' x2='21' y2='6'/%3E%3Cpath d='M16 10a4 4 0 01-8 0'/%3E%3C/svg%3E") no-repeat center/contain;
+            transition: transform 0.3s ease;
+        }
+        .btn-shop-icon:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(212, 168, 83, 0.5);
+            background: linear-gradient(135deg, #e6be6a, #d4a853);
+        }
+        .btn-shop-icon:hover::before {
+            transform: translateX(2px);
+        }
+        .btn-shop-icon:active {
+            transform: scale(0.95);
+        }
+
+
+        .series-sets .section-tag { color: #a855f7; }
+        .series-sets .section-tag::before,
+        .series-sets .section-tag::after { background: #a855f7; }
+        .series-sets .product-category { color: #a855f7; }
+        .series-sets .product-price {
+            background: linear-gradient(135deg, #a855f7, #7c3aed);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .series-sets .product-action {
+            background: rgba(168, 85, 247, 0.1); border-color: rgba(168, 85, 247, 0.3); color: #a855f7;
+        }
+        .series-sets .product-action:hover { background: linear-gradient(135deg, #a855f7, #7c3aed); color: white; }
+        .series-sets .product-card:hover { border-color: rgba(168, 85, 247, 0.3); box-shadow: 0 0 40px rgba(168, 85, 247, 0.2); }
+
+        .series-breakjump .section-tag { color: #ef4444; }
+        .series-breakjump .section-tag::before,
+        .series-breakjump .section-tag::after { background: #ef4444; }
+        .series-breakjump .product-category { color: #ef4444; }
+        .series-breakjump .product-price {
+            background: linear-gradient(135deg, #ef4444, #b91c1c);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .series-breakjump .product-action {
+            background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3); color: #ef4444;
+        }
+        .series-breakjump .product-action:hover { background: linear-gradient(135deg, #ef4444, #b91c1c); color: white; }
+        .series-breakjump .product-card:hover { border-color: rgba(239, 68, 68, 0.3); box-shadow: 0 0 40px rgba(239, 68, 68, 0.2); }
+
+        .series-accessories .section-tag { color: #22c55e; }
+        .series-accessories .section-tag::before,
+        .series-accessories .section-tag::after { background: #22c55e; }
+        .series-accessories .product-category { color: #22c55e; }
+        .series-accessories .product-price {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .series-accessories .product-action {
+            background: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.3); color: #22c55e;
+        }
+        .series-accessories .product-action:hover { background: linear-gradient(135deg, #22c55e, #16a34a); color: white; }
+        .series-accessories .product-card:hover { border-color: rgba(34, 197, 94, 0.3); box-shadow: 0 0 40px rgba(34, 197, 94, 0.2); }
+
+        .series-section {
+            padding: 60px 0;
+            position: relative;
+        }
+
+        .series-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,107,44,0.3), rgba(0,210,255,0.2), transparent);
+        }
+
+        .series-section::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+        }
+
+        .series-section .section-header {
+            margin-bottom: 40px;
+        }
+
+        /* Products Dropdown */
+        .nav-dropdown {
+            position: relative;
+        }
+        .nav-dropdown-trigger {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .dropdown-arrow {
+            font-size: 10px;
+            transition: transform 0.3s ease;
+        }
+        .nav-dropdown:hover .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+        .nav-dropdown-menu {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%) translateY(100%);
+            min-width: 220px;
+            background: rgba(18, 18, 26, 0.98);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 8px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+        .nav-dropdown:hover .nav-dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(100%);
+        }
+        .nav-dropdown-menu a {
+            display: block;
+            padding: 12px 20px;
+            color: #b0b0c0;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+        .nav-dropdown-menu a:hover {
+            color: #fff;
+            background: rgba(255, 107, 44, 0.15);
+            padding-left: 24px;
+        }
+
+        /* Mobile sub menu */
+        .mobile-sub-menu {
+            padding-left: 20px;
+            border-left: 2px solid rgba(255, 107, 44, 0.3);
+            margin-left: 16px;
+            margin-bottom: 8px;
+        }
+        .mobile-sub-menu a {
+            display: block;
+            padding: 10px 0;
+            color: #888;
+            font-size: 0.85rem;
+        }
+        .mobile-sub-menu a:hover {
+            color: var(--orange);
+        }
+
+.product-price .price-old {
+    text-decoration: line-through;
+    color: #6b6b80;
+    font-size: 0.9rem;
+    margin-right: 8px;
+}
+.product-price .price-new {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--orange);
+}
+
+    
+    /* ========== Image Lightbox ========== */
+    .lightbox-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.95);
+        z-index: 10000;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    .lightbox-overlay.active {
+        display: flex;
+        opacity: 1;
+    }
+    .lightbox-container {
+        position: relative;
+        max-width: 90vw;
+        max-height: 90vh;
+    }
+    .lightbox-image {
+        max-width: 90vw;
+        max-height: 80vh;
+        object-fit: contain;
+        border-radius: 8px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+    .lightbox-close {
+        position: absolute;
+        top: -40px;
+        right: 0;
+        width: 36px;
+        height: 36px;
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        border-radius: 50%;
+        color: #fff;
+        font-size: 24px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .lightbox-close:hover {
+        background: rgba(255, 107, 44, 0.8);
+        transform: rotate(90deg);
+    }
+    .lightbox-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 50px;
+        height: 50px;
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        border-radius: 50%;
+        color: #fff;
+        font-size: 24px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .lightbox-nav:hover {
+        background: rgba(255, 107, 44, 0.8);
+    }
+    .lightbox-prev { left: -70px; }
+    .lightbox-next { right: -70px; }
+    .lightbox-dots {
+        position: absolute;
+        bottom: -50px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 12px;
+    }
+    .lightbox-dot {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    .lightbox-dot.active {
+        background: #ff6b2c;
+        transform: scale(1.2);
+    }
+    .lightbox-dot:hover {
+        background: rgba(255, 255, 255, 0.6);
+    }
+    .product-image {
+        cursor: zoom-in;
+        position: relative;
+    }
+    .product-image:hover::after {
+        content: '🔍';
+        position: absolute;
+        bottom: 50px;
+        right: 15px;
+        font-size: 20px;
+        opacity: 0.8;
+        pointer-events: none;
+    }
+
+    
+    /* Zoom hint overlay */
+    .zoom-hint {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 30px;
+        font-size: 14px;
+        font-weight: 600;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        z-index: 10;
+    }
+    .zoom-hint svg {
+        width: 20px;
+        height: 20px;
+    }
+    .product-image:hover .zoom-hint {
+        opacity: 1;
+    }
+    .product-image {
+        cursor: zoom-in;
+    }
+
+    /* ========== 滚动动画 ========== */
+    .scroll-reveal {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .scroll-reveal.revealed {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    .scroll-reveal-left {
+        opacity: 0;
+        transform: translateX(-60px);
+        transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .scroll-reveal-left.revealed {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    .scroll-reveal-right {
+        opacity: 0;
+        transform: translateX(60px);
+        transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .scroll-reveal-right.revealed {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    .scroll-reveal-scale {
+        opacity: 0;
+        transform: scale(0.85);
+        transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .scroll-reveal-scale.revealed {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    /* ========== 文字动画 ========== */
+    .text-animate {
+        display: inline-block;
+        overflow: hidden;
+        text-align: center;
+        width: 100%;
+    }
+    .text-animate .char {
+        display: inline-block;
+        opacity: 0;
+        transform: translateY(100%);
+        transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .text-animate.animate .char {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* ========== 卡片光效 ========== */
+    .product-card {
+        position: relative;
+        overflow: hidden;
+    }
+    .product-card .card-glow {
+        position: absolute;
+        top: var(--glow-y, 50%);
+        left: var(--glow-x, 50%);
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(255,107,44,0.15) 0%, transparent 70%);
+        border-radius: 50%;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        transform: translate(-50%, -50%);
+        z-index: 5;
+    }
+    .product-card:hover .card-glow {
+        opacity: 1;
+    }
+    .product-card .card-border-glow {
+        position: absolute;
+        inset: 0;
+        border-radius: 20px;
+        padding: 1.5px;
+        background: conic-gradient(from var(--glow-angle, 0deg), transparent 40%, rgba(255,107,44,0.6) 50%, transparent 60%);
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+        pointer-events: none;
+        z-index: 10;
+    }
+    .product-card:hover .card-border-glow {
+        opacity: 1;
+        animation: borderRotate 3s linear infinite;
+    }
+    @keyframes borderRotate {
+        to { --glow-angle: 360deg; }
+    }
+    @property --glow-angle {
+        syntax: '<angle>';
+        initial-value: 0deg;
+        inherits: false;
+    }
+
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <a href="#" class="logo">SYNCSHOT</a>
+            <div class="nav-links">
+                <div class="nav-dropdown">
+                    <a href="#products" class="nav-dropdown-trigger">Products <span class="dropdown-arrow">&#9662;</span></a>
+                    <div class="nav-dropdown-menu">
+                        <a href="#products">Overview</a>
+                        <a href="carbon-fiber-series.html">Carbon Fiber</a>
+                        <a href="member-cues.html">Professional Cues</a>
+                        <a href="#cue-sets">Cue Sets</a>
+                        <a href="#break-jump">Break & Jump</a>
+                        <a href="#accessories">Accessories</a>
+                    </div>
+                </div>
+                <a href="featured-deals.html" style="color: #ff6b2c; font-weight: 600;">Featured Deals</a>
+                <a href="best-selling.html" style="color: #00e5ff; font-weight: 600;">Best Selling</a>
+                <a href="#story">Our Story</a>
+                <a href="#process">Craftsmanship</a>
+                <a href="#reviews">Reviews</a>
+                <a href="#contact" class="nav-cta">Contact Us</a>
+            </div>
+            <div class="menu-toggle" id="menuToggle" onclick="toggleMobileNav()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Nav -->
+    <div class="mobile-nav" id="mobileNav">
+        <button class="mobile-nav-close" onclick="toggleMobileNav()">×</button>
+        <a href="#products">Products</a>
+        <div class="mobile-sub-menu" style="display:none;">
+            <a href="#products" onclick="toggleMobileNav()">Overview</a>
+            <a href="carbon-fiber-series.html" onclick="toggleMobileNav()">Carbon Fiber</a>
+            <a href="member-cues.html" onclick="toggleMobileNav()">Professional Cues</a>
+            <a href="#cue-sets" onclick="toggleMobileNav()">Cue Sets</a>
+            <a href="#break-jump" onclick="toggleMobileNav()">Break & Jump</a>
+            <a href="#accessories" onclick="toggleMobileNav()">Accessories</a>
+        </div>
+        <a href="featured-deals.html" onclick="toggleMobileNav()" style="color: #ff6b2c; font-weight: 600;">Featured Deals</a>
+        <a href="best-selling.html" onclick="toggleMobileNav()" style="color: #00e5ff; font-weight: 600;">Best Selling</a>
+        <a href="#story" onclick="toggleMobileNav()">Our Story</a>
+        <a href="#process" onclick="toggleMobileNav()">Craftsmanship</a>
+        <a href="#reviews" onclick="toggleMobileNav()">Reviews</a>
+        <a href="#contact" onclick="toggleMobileNav()" class="nav-cta">Contact Us</a>
+    </div>
+
+    <!-- Hero -->
+    <section class="hero" id="home">
+        <div class="hero-bg">
+            <img src="images/hero-bg-custom.jpg" alt="SYNCSHOT">
+        </div>
+        <div class="hero-orb orange"></div>
+        <div class="hero-orb cyan"></div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="dot"></span>
+                    New 2026 Collection
+                </div>
+                <h1>
+                    PRECISION<br>
+                    <span class="orange">MEETS</span> <span class="cyan">POWER</span>
+                </h1>
+                <p class="hero-tagline">
+                    SYNCSHOT engineers high-performance billiards cues for players who demand excellence. Carbon fiber technology meets master craftsmanship.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#products" class="btn btn-fire">Explore Collection</a>
+                    <a href="#story" class="btn btn-outline">Our Story</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <h3>10+</h3>
+                        <p>Years Experience</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>30K+</h3>
+                        <p>Global Players</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>150+</h3>
+                        <p>Pro Endorsements</p>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-carousel" id="heroCarousel">
+                    <div class="carousel-track" id="carouselTrack">
+                        <div class="carousel-slide">
+                            <img src="images/extracted-2.jpg">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="images/extracted-3.jpg">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="images/extracted-4.jpg">
+                        </div>
+                    </div>
+                    <button class="carousel-btn prev" id="carouselPrev" aria-label="Previous slide">&#8249;</button>
+                    <button class="carousel-btn next" id="carouselNext" aria-label="Next slide">&#8250;</button>
+                    <div class="carousel-dots" id="carouselDots">
+                        <button class="carousel-dot active" data-index="0" aria-label="Go to slide 1"></button>
+                        <button class="carousel-dot" data-index="1" aria-label="Go to slide 2"></button>
+                        <button class="carousel-dot" data-index="2" aria-label="Go to slide 3"></button>
+                    </div>
+                    <div class="floating-badge badge-1">
+                        <div class="fb-label">Carbon Tech</div>
+                        <div class="fb-value orange">Ultra-Light · Ultra-Strong</div>
+                    </div>
+                    <div class="floating-badge badge-2">
+                        <div class="fb-label">Player Rating</div>
+                        <div class="fb-value cyan">4.9 / 5.0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products -->
+    <section class="section products" id="products">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-tag">Product Line</div>
+                <h2>BUILT FOR CHAMPIONS</h2>
+                <p>Three distinct series engineered for every level of play</p>
+            </div>
+
+            <div class="products-grid">
+                <!-- Carbon Fiber (原第3位，现第1位) -->
+                <div class="product-card reveal">
+                    <div class="product-image" style="position:relative;">
+                        <img id="featured-3-img" src="images/extracted-7.jpg" alt="Carbon Fiber Pool Cue 58" onclick="openLightbox(feat3Images, 0)" style="width:100%;height:480px;object-fit:cover;object-position:center;transition:opacity 0.3s ease;">
+                        <div class="zoom-hint"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" /></svg>Click to Zoom</div>
+                        <span class="product-badge badge-pro">Best Seller</span>
+                        <div style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:5;">
+                            <button onclick="switchFeatured3Img(0)" class="feat3-dot active" id="feat3-dot-0" style="width:22px;height:22px;border-radius:50%;border:2px solid #fff;background:rgba(255,255,255,0.8);cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></button>
+                            <button onclick="switchFeatured3Img(1)" class="feat3-dot" id="feat3-dot-1" style="width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,0.3);background:rgba(0,0,0,0.5);cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></button>
+                            <button onclick="switchFeatured3Img(2)" class="feat3-dot" id="feat3-dot-2" style="width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,0.3);background:rgba(0,0,0,0.5);cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Carbon Fiber</div>
+                        <h3 class="product-name">CARBON FIBER POOL CUE 58"</h3>
+                        <p class="product-desc">Full carbon technology with low deflection. Tiger pattern design, 12.5mm multi-layer tip, 3/8x8 joint. Complete set with hard case.</p>
+                        <div class="product-footer">
+                            <div class="product-price">$119.99</div>
+                            <a href="https://www.amazon.com/SYNCSHOT-Professional-Technology-Deflection-Billiard/dp/B0GH65492L/ref=sr_1_1?dib=eyJ2IjoiMSJ9.MJIJ0vkwD81hPf6FEvJN0RBeV3UxknwUzE_921wzwhApUV-FjcLVGL50cBiJxIwSCuVtd6xZLzt2HK_-lxd7cx4bfIqd39EHKP9zpPLGEp5JL7b5NrkpFNSx6o1O56q54QHMKvxzrC_F9h-Dc_1HPIjfS2gIOjn4af_2Jy-oZ0tYZUHQeg7CLrgJzEdABFn2.4Xa6C-BSJlbM8CkbyBSOaS3HvTSQUHTGqMjNtfyym4s&dib_tag=se&marketplaceID=ATVPDKIKX0DER&nsdOptOutParam=true&qid=1776301277&s=merchant-items&sr=1-1&th=1" target="_blank" class="product-action" style="text-decoration:none;">&rarr;</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- American Pool (保持中间不变) -->
+                <div class="product-card reveal">
+                    <div class="product-image" style="position:relative;">
+                        <img id="featured-2-img" src="images/feat2-new-1.jpg" alt="Professional Pool Cue with Hard Case" onclick="openLightbox(feat2Images, 0)" style="width:100%;height:480px;object-fit:cover;object-position:center;transition:opacity 0.3s ease;">
+                        <div class="zoom-hint"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" /></svg>Click to Zoom</div>
+                        <span class="product-badge badge-new">New</span>
+                        <div style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:5;">
+                            <button onclick="switchFeatured2Img(0)" class="feat2-dot active" id="feat2-dot-0" style="width:22px;height:22px;border-radius:50%;border:2px solid #fff;background:rgba(255,255,255,0.8);cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></button>
+                            <button onclick="switchFeatured2Img(1)" class="feat2-dot" id="feat2-dot-1" style="width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,0.3);background:rgba(0,0,0,0.5);cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></button>
+                            <button onclick="switchFeatured2Img(2)" class="feat2-dot" id="feat2-dot-2" style="width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,0.3);background:rgba(0,0,0,0.5);cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Pool Cue Set</div>
+                        <h3 class="product-name">PROFESSIONAL POOL CUE</h3>
+                        <p class="product-desc">Canadian hard maple shaft, 12.5mm leather tip, stainless steel joint. 6 designs available in 19oz/20oz/21oz. Includes hard case.</p>
+                        <div class="product-footer">
+                            <div class="product-price">$89.99</div>
+                            <a href="https://www.amazon.com/SYNCSHOT-Professional-Multi-Layer-Accessories-Selectable/dp/B0FF1F7KBC/ref=sr_1_6?dib=eyJ2IjoiMSJ9.MJIJ0vkwD81hPf6FEvJN0RBeV3UxknwUzE_921wzwhCSj4z27UkjMMh4g-nwiBZIV37uzpwced8yrfL3_sK7lB4bfIqd39EHKP9zpPLGEp5JL7b5NrkpFNSx6o1O56q54QHMKvxzrC_F9h-Dc_1HPIjfS2gIOjn4af_2Jy-oZ0tYZUHQeg7CLrgJzEdABFn2.8Ol1LGDQ0MTt9p7WmawpZaKVDMrzIkT3CQcWp4pmS7k&dib_tag=se&marketplaceID=ATVPDKIKX0DER&nsdOptOutParam=true&qid=1776307714&s=merchant-items&sr=1-6&th=1" target="_blank" class="product-action" style="text-decoration:none;">&rarr;</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pool Cue Set (原第1位，现第3位) -->
+                <div class="product-card reveal">
+                    <div class="product-image" style="position:relative;">
+                        <img id="featured-1-img" src="images/extracted-5.jpg" alt="Pool Cues Set - Multi Color" onclick="openLightbox(feat1Images, 0)" style="width:100%;height:480px;object-fit:cover;object-position:center;transition:opacity 0.3s ease;">
+                        <div class="zoom-hint"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" /></svg>Click to Zoom</div>
+                        <span class="product-badge badge-hot">Hot</span>
+                        <div style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:5;">
+                            <button onclick="switchFeatured1Img(0)" class="feat1-dot active" id="feat1-dot-0" style="width:22px;height:22px;border-radius:50%;border:2px solid #fff;background:rgba(255,255,255,0.8);cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></button>
+                            <button onclick="switchFeatured1Img(1)" class="feat1-dot" id="feat1-dot-1" style="width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,0.3);background:rgba(0,0,0,0.5);cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></button>
+                            <button onclick="switchFeatured1Img(2)" class="feat1-dot" id="feat1-dot-2" style="width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,0.3);background:rgba(0,0,0,0.5);cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Pool Cue Set</div>
+                        <h3 class="product-name">POOL CUES SET 5/4/1</h3>
+                        <p class="product-desc">Professional pool cue set with 4 color options. 3D printing spray technology, rubber protective cover, available in 18oz/19oz/20oz/21oz.</p>
+                        <div class="product-footer">
+                            <div class="product-price">$89.99</div>
+                            <a href="http://amazon.com/SYNCSHOT-Pool-Cue-Set-Professional/dp/B0FPCZ9C8S/ref=sr_1_2?dib=eyJ2IjoiMSJ9.MJIJ0vkwD81hPf6FEvJN0RBeV3UxknwUzE_921wzwhCSj4z27UkjMMh4g-nwiBZIV37uzpwced8yrfL3_sK7lB4bfIqd39EHKP9zpPLGEp5JL7b5NrkpFNSx6o1O56q54QHMKvxzrC_F9h-Dc_1HPIjfS2gIOjn4af_2Jy-oZ0tYZUHQeg7CLrgJzEdABFn2.8Ol1LGDQ0MTt9p7WmawpZaKVDMrzIkT3CQcWp4pmS7k&dib_tag=se&marketplaceID=ATVPDKIKX0DER&nsdOptOutParam=true&qid=1776308495&s=merchant-items&sr=1-2&th=1" target="_blank" class="product-action" style="text-decoration:none;">&rarr;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Carbon Fiber Series -->
+    <section class="section series-section series-carbon" id="carbon-fiber">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-tag">Carbon Fiber</div>
+                <h2>CARBON FIBER SERIES</h2>
+                <p>Aerospace-grade carbon fiber technology for unmatched performance</p>
+            </div>
+            <div class="products-grid">
+                <div class="product-card reveal">
+                    <div class="product-image" style="position:relative;">
+                        <img id="cf-elite-img" src="images/extracted-8.jpg" alt="Carbon Fiber Pool Cue 58 - Detail" onclick="openLightbox(cfEliteImages, 0)" style="width:100%;height:480px;object-fit:contain;transition:opacity 0.3s ease;">
+                        <div class="zoom-hint"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" /></svg>Click to Zoom</div>
+                        <span class="product-badge badge-pro">Best Seller</span>
+                        <div style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:5;">
+                            <button onclick="switchCfEliteImg(0)" class="cf-elite-dot active" id="cf-elite-dot-0" style="width:22px;height:22px;border-radius:50%;border:2px solid #fff;background:rgba(255,255,255,0.8);cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></button>
+                            <button onclick="switchCfEliteImg(1)" class="cf-elite-dot" id="cf-elite-dot-1" style="width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,0.3);background:rgba(0,0,0,0.5);cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></button>
+                            <button onclick="switchCfEliteImg(2)" class="cf-elite-dot" id="cf-elite-dot-2" style="width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,0.3);background:rgba(0,0,0,0.5);cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Carbon Fiber</div>
+                        <h3 class="product-name">CARBON FIBER POOL CUE 58"</h3>
+                        <p class="product-desc">Full carbon technology with low deflection. 12.5mm multi-layer tip, 3/8x8 stainless steel joint, tiger pattern design. Complete set included.</p>
+                        <div class="product-footer">
+                            <div class="product-price">$139.99</div>
+                            <a href="https://www.amazon.com/SYNCSHOT-Professional-Technology-Deflection-Billiard/dp/B0GK165LBB/ref=sr_1_4?dib=eyJ2IjoiMSJ9._1rNBrElpEscME3TkmpNAbo5lOuvyFKQR_A1zioFHMMMtO2wf--1BRZweFJyeXnOY4Si6CYpyM0uNlHYHLAgYPEo1HHlZwmntKfpC35QW3Eco74vGELpH3xREdvLsiAPwmzR4YfUMhUpYUYzhUmfRYjfS2gIOjn4af_2Jy-oZ0tYZUHQeg7CLrgJzEdABFn2.xW_PuLzj7VX4fp8C2iED9Ir5vZjYR5zeiuAB4mNth1s&dib_tag=se&marketplaceID=ATVPDKIKX0DER&nsdOptOutParam=true&qid=1776224098&s=merchant-items&sr=1-4&th=1" target="_blank" class="product-action" style="text-decoration:none;">&rarr;</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card reveal">
+                    <div class="product-image" style="position:relative;">
+                        <img id="cf-stealth-img" src="images/extracted-9.jpg" alt="Carbon Fiber Pool Cue 58 - Stealth" onclick="openLightbox(cfStealthImages, 0)" style="width:100%;height:480px;object-fit:contain;transition:opacity 0.3s ease;">
+                        <div class="zoom-hint"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" /></svg>Click to Zoom</div>
+                        <span class="product-badge badge-new">New</span>
+                        <div style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:5;">
+                            <button onclick="switchCfStealthImg(0)" class="cf-stealth-dot active" id="cf-stealth-dot-0" style="width:22px;height:22px;border-radius:50%;border:2px solid #fff;background:rgba(255,255,255,0.8);cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></button>
+                            <button onclick="switchCfStealthImg(1)" class="cf-stealth-dot" id="cf-stealth-dot-1" style="width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,0.3);background:rgba(0,0,0,0.5);cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></button>
+                            <button onclick="switchCfStealthImg(2)" class="cf-stealth-dot" id="cf-stealth-dot-2" style="width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,0.3);background:rgba(0,0,0,0.5);cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Carbon Fiber</div>
+                        <h3 class="product-name">CARBON FIBER POOL CUE 58"</h3>
+                        <p class="product-desc">Professional pool stick with full carbon technology. Tiger pattern design, 12.5mm tip, low deflection shaft for ultimate control.</p>
+                        <div class="product-footer">
+                            <div class="product-price">$129.99</div>
+                            <a href="https://www.amazon.com/SYNCSHOT-Professional-Technology-Deflection-Billiard/dp/B0GH65492L/ref=sr_1_4?dib=eyJ2IjoiMSJ9._1rNBrElpEscME3TkmpNAbo5lOuvyFKQR_A1zioFHMMMtO2wf--1BRZweFJyeXnOY4Si6CYpyM0uNlHYHLAgYPEo1HHlZwmntKfpC35QW3Eco74vGELpH3xREdvLsiAPwmzR4YfUMhUpYUYzhUmfRYjfS2gIOjn4af_2Jy-oZ0tYZUHQeg7CLrgJzEdABFn2.xW_PuLzj7VX4fp8C2iED9Ir5vZjYR5zeiuAB4mNth1s&dib_tag=se&marketplaceID=ATVPDKIKX0DER&nsdOptOutParam=true&qid=1776224098&s=merchant-items&sr=1-4&th=1" target="_blank" class="product-action" style="text-decoration:none;">&rarr;</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card reveal">
+                    <div class="product-image" style="position:relative;">
+                        <img id="cf-titan-img" src="images/extracted-10.jpg" alt="Carbon Fiber Pool Cue 58 - Titan" onclick="openLightbox(cfTitanImages, 0)" style="width:100%;height:480px;object-fit:contain;transition:opacity 0.3s ease;">
+                        <div class="zoom-hint"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" /></svg>Click to Zoom</div>
+                        <span class="product-badge badge-hot">Hot</span>
+                        <div style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:5;">
+                            <button onclick="switchCfTitanImg(0)" class="cf-titan-dot active" id="cf-titan-dot-0" style="width:22px;height:22px;border-radius:50%;border:2px solid #fff;background:rgba(255,255,255,0.8);cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></button>
+                            <button onclick="switchCfTitanImg(1)" class="cf-titan-dot" id="cf-titan-dot-1" style="width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,0.3);background:rgba(0,0,0,0.5);cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></button>
+                            <button onclick="switchCfTitanImg(2)" class="cf-titan-dot" id="cf-titan-dot-2" style="width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,0.3);background:rgba(0,0,0,0.5);cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Carbon Fiber</div>
+                        <h3 class="product-name">CARBON FIBER POOL CUE 58"</h3>
+                        <p class="product-desc">Professional pool stick with full carbon technology and low deflection. 12.5mm multi-layer tip, 3/8x8 joint, lightweight design.</p>
+                        <div class="product-footer">
+                            <div class="product-price">$119.99</div>
+                            <a href="https://www.amazon.com/SYNCSHOT-Professional-Technology-Deflection-Billiard/dp/B0GK198RPB/ref=sr_1_4?dib=eyJ2IjoiMSJ9._1rNBrElpEscME3TkmpNAbo5lOuvyFKQR_A1zioFHMMMtO2wf--1BRZweFJyeXnOY4Si6CYpyM0uNlHYHLAgYPEo1HHlZwmntKfpC35QW3Eco74vGELpH3xREdvLsiAPwmzR4YfUMhUpYUYzhUmfRYjfS2gIOjn4af_2Jy-oZ0tYZUHQeg7CLrgJzEdABFn2.xW_PuLzj7VX4fp8C2iED9Ir5vZjYR5zeiuAB4mNth1s&dib_tag=se&marketplaceID=ATVPDKIKX0DER&nsdOptOutParam=true&qid=1776224098&s=merchant-items&sr=1-4&th=1" target="_blank" class="product-action" style="text-decoration:none;">&rarr;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Professional Cues -->
+    <section class="section series-section series-member" id="professional.cues">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-tag">Professional Cues</div>
+                <h2>PROFESSIONAL CUE COLLECTION</h2>
+                <p>Exclusive designs for club members and dedicated players</p>
+            </div>
+            <div class="products-grid">
+                <div class="product-card reveal">
+                    <div class="product-image" style="position:relative;">
+                        <img id="member-m1-img" src="images/extracted-11.jpg" alt="Professional Cue Pool Cue" style="width:100%;height:480px;object-fit:contain;">
+                        <span class="product-badge badge-pro">Exclusive</span>
+                        <div style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:2;">
+                            <button class="image-dot active" onclick="switchMemberM1(0)" style="width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,0.6);cursor:pointer;background:#d4a853;transition:background 0.3s;"></button>
+                            <button class="image-dot" onclick="switchMemberM1(1)" style="width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,0.6);cursor:pointer;background:rgba(255,255,255,0.4);transition:background 0.3s;"></button>
+                            <button class="image-dot" onclick="switchMemberM1(2)" style="width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,0.6);cursor:pointer;background:rgba(255,255,255,0.4);transition:background 0.3s;"></button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Professional Cues</div>
+                        <h3 class="product-name">Professional Pool Cue Stick with Hard Case</h3>
+                        <p class="product-desc">Timeless design with premium maple construction and brass fittings</p>
+                        <div class="product-specs">
+                            <div class="spec">Weight: <span>19oz</span></div>
+                            <div class="spec">Tip: <span>13mm</span></div>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price">$99.99</div>
+                            <a href="https://www.amazon.com/SYNCSHOT-Professional-Multi-Layer-Accessories-Selectable/dp/B0FF1NHFGG/ref=sr_1_6?dib=eyJ2IjoiMSJ9.MJIJ0vkwD81hPf6FEvJN0bq_9MYZG0NXGFweM-n2gSZOE4kTT6UNouYIv5KX_zXiY4Si6CYpyM0uNlHYHLAgYJiV109SfRLJd2NDfs9zvUEASEPKhIuLVYqYBW3qGUI-HB6ABGlCIMAss-7-1xt-3Bw7Tk9Yo-koADN1KoG9ZzR3gS0njGg3AF7KWmmjgx5Ia3mQ1axmZn6WQUFSzOFej1jMA07ax5DhYQEWscaFe4o.ni0df0mkC3abAl4W9KVB9r82g6bo8sKFeOGYwxroJ-Y&dib_tag=se&marketplaceID=ATVPDKIKX0DER&nsdOptOutParam=true&qid=1776820292&s=merchant-items&sr=1-6&th=1" target="_blank" class="btn-shop-icon" title="Shop Now"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card reveal">
+                    <div class="product-image" style="position:relative;">
+                        <img id="member-m2-img" src="images/extracted-12.jpg" alt="Professional Cue Pool Cue" style="width:100%;height:480px;object-fit:contain;">
+                        <span class="product-badge badge-hot">Popular</span>
+                        <div style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:2;">
+                            <button class="image-dot active" onclick="switchMemberM2(0)" style="width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,0.6);cursor:pointer;background:#d4a853;transition:background 0.3s;"></button>
+                            <button class="image-dot" onclick="switchMemberM2(1)" style="width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,0.6);cursor:pointer;background:rgba(255,255,255,0.4);transition:background 0.3s;"></button>
+                            <button class="image-dot" onclick="switchMemberM2(2)" style="width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,0.6);cursor:pointer;background:rgba(255,255,255,0.4);transition:background 0.3s;"></button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Professional Cues</div>
+                        <h3 class="product-name">Professional Pool Cue Stick with Hard Case, 58"</h3>
+                        <p class="product-desc">Rosewood forearm with intricate inlay details and Irish linen wrap</p>
+                        <div class="product-specs">
+                            <div class="spec">Weight: <span>19.5oz</span></div>
+                            <div class="spec">Tip: <span>13mm</span></div>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price">$69.99</div>
+                            <a href="https://www.amazon.com/SYNCSHOT-Professional-Multi-Layer-Accessories-Selectable/dp/B0FF24Y8XD/ref=sr_1_6?dib=eyJ2IjoiMSJ9.MJIJ0vkwD81hPf6FEvJN0bq_9MYZG0NXGFweM-n2gSZOE4kTT6UNouYIv5KX_zXiY4Si6CYpyM0uNlHYHLAgYJiV109SfRLJd2NDfs9zvUEASEPKhIuLVYqYBW3qGUI-HB6ABGlCIMAss-7-1xt-3Bw7Tk9Yo-koADN1KoG9ZzR3gS0njGg3AF7KWmmjgx5Ia3mQ1axmZn6WQUFSzOFej1jMA07ax5DhYQEWscaFe4o.ni0df0mkC3abAl4W9KVB9r82g6bo8sKFeOGYwxroJ-Y&dib_tag=se&marketplaceID=ATVPDKIKX0DER&nsdOptOutParam=true&qid=1776820292&s=merchant-items&sr=1-6&th=1" target="_blank" class="btn-shop-icon" title="Shop Now"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card reveal">
+                    <div class="product-image" style="position:relative;">
+                        <img id="member-m3-img" src="images/extracted-13.jpg" alt="Professional Cue Pool Cue" style="width:100%;height:480px;object-fit:contain;">
+                        <span class="product-badge badge-new">Limited</span>
+                        <div style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:2;">
+                            <button class="image-dot active" onclick="switchMemberM3(0)" style="width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,0.6);cursor:pointer;background:#d4a853;transition:background 0.3s;"></button>
+                            <button class="image-dot" onclick="switchMemberM3(1)" style="width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,0.6);cursor:pointer;background:rgba(255,255,255,0.4);transition:background 0.3s;"></button>
+                            <button class="image-dot" onclick="switchMemberM3(2)" style="width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,0.6);cursor:pointer;background:rgba(255,255,255,0.4);transition:background 0.3s;"></button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Professional Cues</div>
+                        <h3 class="product-name">Professional Pool Cue Stick with Hard Case, 58" Canadian Maple</h3>
+                        <p class="product-desc">Custom-grade cue with exotic wood veneers and precision balance</p>
+                        <div class="product-specs">
+                            <div class="spec">Weight: <span>20oz</span></div>
+                            <div class="spec">Tip: <span>12.75mm</span></div>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price">$69.99</div>
+                            <a href="https://www.amazon.com/SYNCSHOT-Professional-Multi-Layer-Accessories-Selectable/dp/B0FF23TQ2H/ref=sr_1_6?dib=eyJ2IjoiMSJ9.MJIJ0vkwD81hPf6FEvJN0bq_9MYZG0NXGFweM-n2gSZOE4kTT6UNouYIv5KX_zXiY4Si6CYpyM0uNlHYHLAgYJiV109SfRLJd2NDfs9zvUEASEPKhIuLVYqYBW3qGUI-HB6ABGlCIMAss-7-1xt-3Bw7Tk9Yo-koADN1KoG9ZzR3gS0njGg3AF7KWmmjgx5Ia3mQ1axmZn6WQUFSzOFej1jMA07ax5DhYQEWscaFe4o.ni0df0mkC3abAl4W9KVB9r82g6bo8sKFeOGYwxroJ-Y&dib_tag=se&marketplaceID=ATVPDKIKX0DER&nsdOptOutParam=true&qid=1776820292&s=merchant-items&sr=1-6&th=1" target="_blank" class="btn-shop-icon" title="Shop Now"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cue Sets -->
+    <section class="section series-section series-sets" id="cue-sets">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-tag">Cue Sets</div>
+                <h2>COMPLETE CUE SETS</h2>
+                <p>Everything you need to start playing, all in one package</p>
+            </div>
+            <div class="products-grid">
+                <div class="product-card reveal">
+                    <div class="product-image" style="position:relative;">
+                        <img id="cueset1-img" src="images/extracted-14.jpg" alt="Pool Cue Set" onclick="openLightbox(cueset1Images, 0)" style="width:100%;height:480px;object-fit:contain;transition:opacity 0.3s ease;">
+                        <span class="product-badge badge-new">New</span>
+                        <div style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:5;">
+                            <button onclick="switchCueSet1Img(0)" class="cueset1-dot active" id="cueset1-dot-0" style="width:22px;height:22px;border-radius:50%;border:2px solid #fff;background:rgba(255,255,255,0.8);cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></button>
+                            <button onclick="switchCueSet1Img(1)" class="cueset1-dot" id="cueset1-dot-1" style="width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,0.3);background:rgba(0,0,0,0.5);cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></button>
+                            <button onclick="switchCueSet1Img(2)" class="cueset1-dot" id="cueset1-dot-2" style="width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,0.3);background:rgba(0,0,0,0.5);cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Cue Sets</div>
+                        <h3 class="product-name">POOL CUES SET 5/4/1</h3>
+                        <p class="product-desc">Complete pool cue set with multiple weight options (15-21oz). 58/48 inch maple wood billiards cue sticks for adults. Includes case and accessories.</p>
+                        <div class="product-footer">
+                            <div class="product-price">$95.99</div>
+                            <a href="https://www.amazon.com/SYNCSHOT-Pool-Cue-Set-Professional/dp/B0GKFZHRY9/ref=sr_1_2?dib=eyJ2IjoiMSJ9.MJIJ0vkwD81hPf6FEvJN0bq_9MYZG0NXGFweM-n2gSZOE4kTT6UNouYIv5KX_zXiV37uzpwced8yrfL3_sK7lLNAVEyUzdAH85Me_MeklKUwkK9Z-vyfBDSJfBiT9XKw4QHMKvxzrC_F9h-Dc_1HPIjfS2gIOjn4af_2Jy-oZ0vf6-bwZip9slvDYTaDhXSICijeIyHiB0wyQqMGmirQ-wCBmvLyP-ruTqu6tINWSK8.r5iQFnTFx30Qb7Kaj52-Sj7jxQPj2hp5O7XxnvQKB7M&dib_tag=se&m=AQ7Q84NVLAUX1&marketplaceID=ATVPDKIKX0DER&nsdOptOutParam=true&qid=1776411449&s=merchant-items&sr=1-2&th=1" target="_blank" class="product-action" style="text-decoration:none;">&rarr;</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card reveal">
+                    <div class="product-image">
+                        <img id="cueset2-img" src="images/extracted-15.jpg" alt="Pool Sticks for Adults 58 48 Inch 15 18 19 20 21oz Maple Wood Billiards Cue Sticks" onclick="openLightbox(cueset2Images, 0)" style="width:100%;height:480px;object-fit:contain;transition:opacity 0.3s ease;">
+                        <div class="zoom-hint"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" /></svg>Click to Zoom</div>
+                        <div style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:8px;">
+                            <button class="image-dot active" onclick="switchCueset2(0)" style="width:22px;height:22px;border-radius:50%;border:none;cursor:pointer;background:#ff6b00;transition:background 0.3s;"></button>
+                            <button class="image-dot" onclick="switchCueset2(1)" style="width:22px;height:22px;border-radius:50%;border:none;cursor:pointer;background:rgba(255,255,255,0.4);transition:background 0.3s;"></button>
+                            <button class="image-dot" onclick="switchCueset2(2)" style="width:22px;height:22px;border-radius:50%;border:none;cursor:pointer;background:rgba(255,255,255,0.4);transition:background 0.3s;"></button>
+                        </div>
+                        <span class="product-badge badge-hot">Complete</span>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Cue Sets</div>
+                        <h3 class="product-name">Maple Wood Pool Cue Set 5/4/1</h3>
+                        <p class="product-desc">Professional set with hard case, extension, and premium tips</p>
+                        <div class="product-specs">
+                            <div class="spec">Weight: <span>18.5oz</span></div>
+                            <div class="spec">Tip: <span>12.5mm</span></div>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price">$89.99</div>
+                            <a href="https://www.amazon.com/SYNCSHOT-Pool-Cue-Set-Professional/dp/B0FPCZ9C8S/ref=sr_1_2?dib=eyJ2IjoiMSJ9.MJIJ0vkwD81hPf6FEvJN0RBeV3UxknwUzE_921wzwhCSj4z27UkjMMh4g-nwiBZIV37uzpwced8yrfL3_sK7lB4bfIqd39EHKP9zpPLGEp5JL7b5NrkpFNSx6o1O56q54QHMKvxzrC_F9h-Dc_1HPIjfS2gIOjn4af_2Jy-oZ0tYZUHQeg7CLrgJzEdABFn2.8Ol1LGDQ0MTt9p7WmawpZaKVDMrzIkT3CQcWp4pmS7k&dib_tag=se&marketplaceID=ATVPDKIKX0DER&nsdOptOutParam=true&qid=1776308495&s=merchant-items&sr=1-2&th=1" target="_blank" class="product-action" style="text-decoration:none;">&rarr;</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card reveal">
+                    <div class="product-image">
+                        <img id="cueset3-img" src="images/extracted-16.jpg" alt="Pool Cues Set of 5/4/1, Pool Sticks for Adults 58 48 Inch 15 18 19 20 21oz Maple Wood Billiards Cue Sticks, for Professional Billiard Players Bars Home Hall Table Sport" onclick="openLightbox(cueset3Images, 0)" style="width:100%;height:480px;object-fit:contain;transition:opacity 0.3s ease;">
+                        <div class="zoom-hint"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" /></svg>Click to Zoom</div>
+                        <div style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:8px;">
+                            <button class="image-dot active" onclick="switchCueset3(0)" style="width:22px;height:22px;border-radius:50%;border:none;cursor:pointer;background:#ff6b00;transition:background 0.3s;"></button>
+                            <button class="image-dot" onclick="switchCueset3(1)" style="width:22px;height:22px;border-radius:50%;border:none;cursor:pointer;background:rgba(255,255,255,0.4);transition:background 0.3s;"></button>
+                            <button class="image-dot" onclick="switchCueset3(2)" style="width:22px;height:22px;border-radius:50%;border:none;cursor:pointer;background:rgba(255,255,255,0.4);transition:background 0.3s;"></button>
+                        </div>
+                        <span class="product-badge badge-new">Pro Kit</span>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Cue Sets</div>
+                        <h3 class="product-name">Pool Cues Set 5/4/1 Professional</h3>
+                        <p class="product-desc">Competition-ready set with carbon fiber cue and full accessory kit</p>
+                        <div class="product-specs">
+                            <div class="spec">Weight: <span>18.5oz</span></div>
+                            <div class="spec">Tip: <span>12.5mm</span></div>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price">$89.99</div>
+                            <a href="https://www.amazon.com/SYNCSHOT-Pool-Cue-Set-Professional/dp/B0FPCZ9C8S/ref=sr_1_2?dib=eyJ2IjoiMSJ9.MJIJ0vkwD81hPf6FEvJN0RBeV3UxknwUzE_921wzwhCSj4z27UkjMMh4g-nwiBZIV37uzpwced8yrfL3_sK7lB4bfIqd39EHKP9zpPLGEp5JL7b5NrkpFNSx6o1O56q54QHMKvxzrC_F9h-Dc_1HPIjfS2gIOjn4af_2Jy-oZ0tYZUHQeg7CLrgJzEdABFn2.8Ol1LGDQ0MTt9p7WmawpZaKVDMrzIkT3CQcWp4pmS7k&dib_tag=se&marketplaceID=ATVPDKIKX0DER&nsdOptOutParam=true&qid=1776308495&s=merchant-items&sr=1-2&th=1" target="_blank" class="product-action" style="text-decoration:none;">&rarr;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Break & Jump -->
+    <section class="section series-section series-breakjump" id="break-jump">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-tag">Break & Jump</div>
+                <h2>BREAK & JUMP SERIES</h2>
+                <p>Powerful break cues and precise jump cues for specialty shots</p>
+            </div>
+            <div class="products-grid">
+                <div class="product-card reveal">
+                    <div class="product-image" style="position:relative;">
+                        <img id="bj-1-img" src="images/extracted-17.jpg" alt="3-Piece Break & Jump Pool Cue" onclick="openLightbox(bj1Images, 0)" style="width:100%;height:480px;object-fit:contain;transition:opacity 0.3s ease;">
+                        <div class="zoom-hint"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" /></svg>Click to Zoom</div>
+                        <span class="product-badge badge-hot">Hot</span>
+                        <div style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:5;">
+                            <button onclick="switchBj1Img(0)" class="bj1-dot active" id="bj1-dot-0" style="width:22px;height:22px;border-radius:50%;border:2px solid #fff;background:rgba(255,255,255,0.8);cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></button>
+                            <button onclick="switchBj1Img(1)" class="bj1-dot" id="bj1-dot-1" style="width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,0.3);background:rgba(0,0,0,0.5);cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></button>
+                            <button onclick="switchBj1Img(2)" class="bj1-dot" id="bj1-dot-2" style="width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,0.3);background:rgba(0,0,0,0.5);cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></button>
+                            <button onclick="switchBj1Img(3)" class="bj1-dot" id="bj1-dot-3" style="width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,0.3);background:rgba(0,0,0,0.5);cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Break & Jump</div>
+                        <h3 class="product-name">3-PIECE BREAK & JUMP CUE</h3>
+                        <p class="product-desc">2-in-1 break and jump pool cue. 58", 21oz, 14mm crystal tip, maple wood shaft, stainless steel joint. Pink colorway.</p>
+                        <div class="product-footer">
+                            <div class="product-price">$89.99</div>
+                            <a href="https://www.amazon.com/SYNCSHOT-Heavy-Break-Jump-Cue/dp/B0FLPQZSS5/ref=sr_1_7?dib=eyJ2IjoiMSJ9.CJfh0Nke_Qi80K9vncDj4ABKJkQ4WQ6R9YJ70r1weaqSj4z27UkjMMh4g-nwiBZIV37uzpwced8yrfL3_sK7lLNAVEyUzdAH85Me_MeklKXyDJ6ianRiwFi4hABfrva64QHMKvxzrC_F9h-Dc_1HPIjfS2gIOjn4af_2Jy-oZ0tYZUHQeg7CLrgJzEdABFn2.cyU1FPzAPa5R9a_Otc5t3qf4R8e9kpHbfhuI1FHy8Oo&dib_tag=se&m=AQ7Q84NVLAUX1&marketplaceID=ATVPDKIKX0DER&nsdOptOutParam=true&qid=1776318462&s=merchant-items&sr=1-7" target="_blank" class="product-action" style="text-decoration:none;">&rarr;</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card reveal">
+                    <div class="product-image" style="position:relative;">
+                        <img id="bj-2-img" src="images/extracted-18.jpg" alt="Break & Jump Pool Cue" onclick="openLightbox(bj2Images, 0)" style="width:100%;height:480px;object-fit:contain;transition:opacity 0.3s ease;">
+                        <div class="zoom-hint"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" /></svg>Click to Zoom</div>
+                        <span class="product-badge badge-new">New</span>
+                        <div style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:5;">
+                            <button onclick="switchBj2Img(0)" class="bj2-dot active" id="bj2-dot-0" style="width:22px;height:22px;border-radius:50%;border:2px solid #fff;background:rgba(255,255,255,0.8);cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></button>
+                            <button onclick="switchBj2Img(1)" class="bj2-dot" id="bj2-dot-1" style="width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,0.3);background:rgba(0,0,0,0.5);cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></button>
+                            <button onclick="switchBj2Img(2)" class="bj2-dot" id="bj2-dot-2" style="width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,0.3);background:rgba(0,0,0,0.5);cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></button>
+                            <button onclick="switchBj2Img(3)" class="bj2-dot" id="bj2-dot-3" style="width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,0.3);background:rgba(0,0,0,0.5);cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Break & Jump</div>
+                        <h3 class="product-name">BREAK & JUMP POOL CUE</h3>
+                        <p class="product-desc">2-in-1 jump and break billiard cue. Quick-release joint, lightweight design for jump shots and powerful breaks.</p>
+                        <div class="product-footer">
+                            <div class="product-price">$89.99</div>
+                            <a href="https://www.amazon.com/SYNCSHOT-Heavy-Break-Jump-Cue/dp/B0FLPNNC4M/ref=sr_1_8?dib=eyJ2IjoiMSJ9.CJfh0Nke_Qi80K9vncDj4ABKJkQ4WQ6R9YJ70r1weaqSj4z27UkjMMh4g-nwiBZIV37uzpwced8yrfL3_sK7lLNAVEyUzdAH85Me_MeklKXyDJ6ianRiwFi4hABfrva64QHMKvxzrC_F9h-Dc_1HPIjfS2gIOjn4af_2Jy-oZ0tYZUHQeg7CLrgJzEdABFn2.cyU1FPzAPa5R9a_Otc5t3qf4R8e9kpHbfhuI1FHy8Oo&dib_tag=se&m=AQ7Q84NVLAUX1&marketplaceID=ATVPDKIKX0DER&nsdOptOutParam=true&qid=1776318462&s=merchant-items&sr=1-8&th=1" target="_blank" class="product-action" style="text-decoration:none;">&rarr;</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card reveal">
+                    <div class="product-image" style="position:relative;">
+                        <img id="bj-3-img" src="images/extracted-19.jpg" alt="Break Jump Combo Pool Cue" onclick="openLightbox(bj3Images, 0)" style="width:100%;height:480px;object-fit:contain;transition:opacity 0.3s ease;">
+                        <div class="zoom-hint"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" /></svg>Click to Zoom</div>
+                        <span class="product-badge badge-pro">Versatile</span>
+                        <div style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:5;">
+                            <button onclick="switchBj3Img(0)" class="bj3-dot active" id="bj3-dot-0" style="width:22px;height:22px;border-radius:50%;border:2px solid #fff;background:rgba(255,255,255,0.8);cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></button>
+                            <button onclick="switchBj3Img(1)" class="bj3-dot" id="bj3-dot-1" style="width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,0.3);background:rgba(0,0,0,0.5);cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></button>
+                            <button onclick="switchBj3Img(2)" class="bj3-dot" id="bj3-dot-2" style="width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,0.3);background:rgba(0,0,0,0.5);cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></button>
+                            <button onclick="switchBj3Img(3)" class="bj3-dot" id="bj3-dot-3" style="width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,0.3);background:rgba(0,0,0,0.5);cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Break & Jump</div>
+                        <h3 class="product-name">BREAK & JUMP COMBO</h3>
+                        <p class="product-desc">2-in-1 break and jump combo cue with quick-release joint system. Versatile for kick-off, jump ball and normal play.</p>
+                        <div class="product-footer">
+                            <div class="product-price">$89.99</div>
+                            <a href="https://www.amazon.com/SYNCSHOT-Heavy-Break-Jump-Cue/dp/B0FLPX1YWR/ref=sr_1_8?dib=eyJ2IjoiMSJ9.CJfh0Nke_Qi80K9vncDj4ABKJkQ4WQ6R9YJ70r1weaqSj4z27UkjMMh4g-nwiBZIV37uzpwced8yrfL3_sK7lLNAVEyUzdAH85Me_MeklKXyDJ6ianRiwFi4hABfrva64QHMKvxzrC_F9h-Dc_1HPIjfS2gIOjn4af_2Jy-oZ0tYZUHQeg7CLrgJzEdABFn2.cyU1FPzAPa5R9a_Otc5t3qf4R8e9kpHbfhuI1FHy8Oo&dib_tag=se&m=AQ7Q84NVLAUX1&marketplaceID=ATVPDKIKX0DER&nsdOptOutParam=true&qid=1776318462&s=merchant-items&sr=1-8&th=1" target="_blank" class="product-action" style="text-decoration:none;">&rarr;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Accessories -->
+    <section class="section series-section series-accessories" id="accessories">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-tag">Accessories</div>
+                <h2>ESSENTIAL ACCESSORIES</h2>
+                <p>Premium accessories to complement your game</p>
+            </div>
+            <div class="products-grid">
+                <div class="product-card reveal">
+                    <div class="product-image" style="position:relative;">
+                        <img id="chalk-img" src="images/extracted-20.jpg" alt="10A Nano Pool Cue Chalk - Blue" onclick="openLightbox(tipToolImages, 0)" style="width:100%;height:480px;object-fit:contain;transition:opacity 0.3s ease;">
+                        <span class="product-badge badge-new">New</span>
+                        <div style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:5;">
+                            <button onclick="switchChalkColor('blue')" class="color-dot active" id="dot-blue" style="width:24px;height:24px;border-radius:50%;border:2px solid #fff;background:#3b6dbf;cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></button>
+                            <button onclick="switchChalkColor('pink')" class="color-dot" id="dot-pink" style="width:24px;height:24px;border-radius:50%;border:2px solid rgba(255,255,255,0.3);background:#e87bab;cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Accessories</div>
+                        <h3 class="product-name">10A NANO POOL CUE CHALK</h3>
+                        <p class="product-desc">Ultra-dense nano-particle chalk for superior grip and precision. 10A grade premium quality.</p>
+                        <div class="product-footer">
+                            <div class="product-price">$18.49</div>
+                            <a href="https://www.amazon.com/SYNCSHOT-10A-Nano-Pool-Chalk/dp/B0FHVVHDQZ/ref=sr_1_5?dib=eyJ2IjoiMSJ9._1rNBrElpEscME3TkmpNAbo5lOuvyFKQR_A1zioFHMMMtO2wf--1BRZweFJyeXnOY4Si6CYpyM0uNlHYHLAgYPEo1HHlZwmntKfpC35QW3Eco74vGELpH3xREdvLsiAPwmzR4YfUMhUpYUYzhUmfRYjfS2gIOjn4af_2Jy-oZ0tYZUHQeg7CLrgJzEdABFn2.xW_PuLzj7VX4fp8C2iED9Ir5vZjYR5zeiuAB4mNth1s&dib_tag=se&marketplaceID=ATVPDKIKX0DER&nsdOptOutParam=true&qid=1776224098&s=merchant-items&sr=1-5&th=1" target="_blank" class="product-action" style="text-decoration:none;">&rarr;</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card reveal">
+                    <div class="product-image" style="position:relative;">
+                        <img id="tiptool-img" src="images/extracted-21.jpg" alt="3-in-1 Pool Cue Tip Tool" onclick="openLightbox(tipToolImages, 0)" style="width:100%;height:480px;object-fit:contain;transition:opacity 0.3s ease;">
+                        <span class="product-badge badge-new">Best Seller</span>
+                        <div style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:5;">
+                            <button onclick="switchTipToolImg(0)" class="tiptool-dot active" id="tiptool-dot-0" style="width:24px;height:24px;border-radius:50%;border:2px solid #fff;background:rgba(255,255,255,0.8);cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></button>
+                            <button onclick="switchTipToolImg(1)" class="tiptool-dot" id="tiptool-dot-1" style="width:24px;height:24px;border-radius:50%;border:2px solid rgba(255,255,255,0.3);background:rgba(0,0,0,0.5);cursor:pointer;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Accessories</div>
+                        <h3 class="product-name">3-IN-1 CUE TIP TOOL</h3>
+                        <p class="product-desc">Scuff, shape, and aerate your cue tip with one premium aluminum tool. Sturdy steel needles and wear-resistant gravel surface.</p>
+                        <div class="product-footer">
+                            <div class="product-price">$18.99</div>
+                            <a href="https://www.amazon.com/SYNCSHOT-Pool-Cue-Tip-Accessories/dp/B0FP2PTTM5/ref=sr_1_3?dib=eyJ2IjoiMSJ9._1rNBrElpEscME3TkmpNAbo5lOuvyFKQR_A1zioFHMMMtO2wf--1BRZweFJyeXnOY4Si6CYpyM0uNlHYHLAgYPEo1HHlZwmntKfpC35QW3Eco74vGELpH3xREdvLsiAPwmzR4YfUMhUpYUYzhUmfRYjfS2gIOjn4af_2Jy-oZ0tYZUHQeg7CLrgJzEdABFn2.xW_PuLzj7VX4fp8C2iED9Ir5vZjYR5zeiuAB4mNth1s&dib_tag=se&m=AQ7Q84NVLAUX1&marketplaceID=ATVPDKIKX0DER&nsdOptOutParam=true&qid=1776224098&s=merchant-items&sr=1-3&th=1" target="_blank" class="product-action" style="text-decoration:none;">&rarr;</a>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- Story -->
+    <section class="section story" id="story">
+        <div class="container">
+            <div class="story-grid">
+                <div class="story-image reveal" style="position:relative;">
+                        <img id="story-img" src="images/story-1.jpg" alt="SYNCSHOT Craftsmanship" style="width:100%;height:100%;object-fit:cover;border-radius:12px;transition:opacity 0.5s ease;">
+                        <div style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:2;">
+                            <button class="story-dot active" onclick="switchStoryImg(0)" style="width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,0.6);cursor:pointer;background:#ff6b2c;transition:all 0.3s;"></button>
+                            <button class="story-dot" onclick="switchStoryImg(1)" style="width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,0.6);cursor:pointer;background:rgba(255,255,255,0.4);transition:all 0.3s;"></button>
+                        </div>
+                    </div>
+                <div class="story-content reveal">
+                    <div class="section-tag" style="justify-content: flex-start;">Our Story</div>
+                    <h3>BORN FROM<br><span class="orange">PURSUIT</span></h3>
+                    <p>
+                        In billiards, every shot is a test of skill and focus. SYNCSHOT was born from players' relentless pursuit of perfection—crafting cues that become true extensions of the player's intent.
+                    </p>
+                    <p>
+                        We start with premium woods, rigorously selected for balance and durability. Each cue is handcrafted using time-honored techniques enhanced by modern innovation, ensuring flawless performance. Custom options let players tailor their perfect weapon.
+                    </p>
+                    <p>
+                        More than equipment, SYNCSHOT is a mindset: respect for tradition, passion for progress, and commitment to excellence. For professionals and enthusiasts alike, we don't just make cues—we elevate the game.
+                    </p>
+                    <div class="story-features">
+                        <div class="feature-item">
+                            <div class="feature-icon orange">🎯</div>
+                            <div>
+                                <h4>Precision Crafted</h4>
+                                <p>Every cue handcrafted for flawless performance</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon cyan">🪵</div>
+                            <div>
+                                <h4>Premium Woods</h4>
+                                <p>Rigorously selected for balance and durability</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon purple">⚡</div>
+                            <div>
+                                <h4>Modern Innovation</h4>
+                                <p>Time-honored techniques enhanced by technology</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon orange">🏆</div>
+                            <div>
+                                <h4>Custom Options</h4>
+                                <p>Tailor your perfect weapon</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process -->
+    <section class="section process" id="process">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-tag">Craftsmanship</div>
+                <h2>ENGINEERED TO PERFECTION</h2>
+                <p>Every SYNCSHOT cue passes through 36 quality checkpoints</p>
+            </div>
+
+            <div class="process-timeline">
+                <div class="process-step reveal">
+                    <div class="step-number">01</div>
+                    <h4>MATERIAL SELECTION</h4>
+                    <p>Premium North American maple and aerospace-grade carbon fiber sourced from trusted suppliers</p>
+                </div>
+                <div class="process-step reveal">
+                    <div class="step-number">02</div>
+                    <h4>PRECISION MACHINING</h4>
+                    <p>5-axis CNC machining with tolerances within 0.01mm for perfect consistency</p>
+                </div>
+                <div class="process-step reveal">
+                    <div class="step-number">03</div>
+                    <h4>HAND FINISHING</h4>
+                    <p>Master craftsmen apply 12 stages of hand sanding and polishing</p>
+                </div>
+                <div class="process-step reveal">
+                    <div class="step-number">04</div>
+                    <h4>QUALITY TESTING</h4>
+                    <p>Each cue undergoes 36 rigorous tests before leaving our facility</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="section testimonials" id="reviews">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-tag">Reviews</div>
+                <h2>WHAT PLAYERS SAY</h2>
+                <p>Join thousands of satisfied SYNCSHOT players worldwide</p>
+            </div>
+
+            <div class="testimonials-grid">
+                <!-- Review 1 - Carbon Fiber Cue (Real Amazon Review) -->
+                <div class="testimonial-card reveal">
+                    <div class="testimonial-card-header">
+                        <div class="testimonial-card-left">
+                            <div class="testimonial-rating">
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                            </div>
+                            <div class="amazon-verified">
+                                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                                Amazon Verified Purchase
+                            </div>
+                        </div>
+                        <div class="testimonial-product-preview" onclick="openTestimonialLightbox('images/carbon-stealth-1.jpg')">
+                            <div class="zoom-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div>
+                            <img src="images/carbon-stealth-1.jpg" alt="Carbon Fiber Pool Cue">
+                            <a href="https://www.amazon.com/SYNCSHOT-Professional-Technology-Deflection-Billiard/dp/B0GH5H67CL" target="_blank" class="testimonial-shop-btn" onclick="event.stopPropagation()">
+                                <svg viewBox="0 0 24 24"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"/></svg>
+                                Shop on Amazon
+                            </a>
+                        </div>
+                    </div>
+                    <div class="testimonial-quote">"</div>
+                    <div class="testimonial-review-title">
+                        <span class="title-text">Very impressive cue</span>
+                        <span class="expand-hint">Hover to read more →</span>
+                    </div>
+                    <p class="testimonial-text">
+                        Excellent quality carbon fiber cue at a fantastic price. I have received several compliments from my pool playing community and many of them have expressed their desire to own, for themselves, this top of the line cue. Shot accuracy and cue ball command will improve due to the quality of the manufacturing and materials used. This cue has the special "it" factor that any player will be pleased to see the improvement in their game. Highly recommend to buy this cue. You'll be very impressed with it.
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar avatar-1">G</div>
+                        <div class="author-info">
+                            <h4>Garp Papp</h4>
+                            <p>Amazon Reviewer</p>
+                            <div class="verified-badge">
+                                <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+                                Verified Purchase
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 2 - Pool Cue Set (Real Amazon Review) -->
+                <div class="testimonial-card reveal">
+                    <div class="testimonial-card-header">
+                        <div class="testimonial-card-left">
+                            <div class="testimonial-rating">
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                            </div>
+                            <div class="amazon-verified">
+                                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                                Amazon Verified Purchase
+                            </div>
+                        </div>
+                        <div class="testimonial-product-preview" onclick="openTestimonialLightbox('images/extracted-14.jpg')">
+                            <div class="zoom-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div>
+                            <img src="images/extracted-14.jpg" alt="Pool Cues Set 5/4/1">
+                            <a href="https://www.amazon.com/SYNCSHOT-Pool-Cue-Set-Professional/dp/B0GKFZHRY9" target="_blank" class="testimonial-shop-btn" onclick="event.stopPropagation()">
+                                <svg viewBox="0 0 24 24"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"/></svg>
+                                Shop on Amazon
+                            </a>
+                        </div>
+                    </div>
+                    <div class="testimonial-quote">"</div>
+                    <div class="testimonial-review-title">
+                        <span class="title-text">Nice straight cues!!</span>
+                        <span class="expand-hint">Hover to read more →</span>
+                    </div>
+                    <p class="testimonial-text">
+                        Great price for a really good set of cues. All were very straight and have nice tips that didn't require any alterations. In the package, you get five cues - one 18oz, two 19oz, one 20oz and one 21oz. I do wish they had more options for design but all in all a great purchase. Would definitely recommend.
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar avatar-2">D</div>
+                        <div class="author-info">
+                            <h4>Di's Buys</h4>
+                            <p>Amazon Reviewer</p>
+                            <div class="verified-badge">
+                                <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+                                Verified Purchase
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 3 - Professional Pool Cue Set (Real Amazon Review) -->
+                <div class="testimonial-card reveal">
+                    <div class="testimonial-card-header">
+                        <div class="testimonial-card-left">
+                            <div class="testimonial-rating">
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                            </div>
+                            <div class="amazon-verified">
+                                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                                Amazon Verified Purchase
+                            </div>
+                        </div>
+                        <div class="testimonial-product-preview" onclick="openTestimonialLightbox('images/extracted-13.jpg')">
+                            <div class="zoom-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div>
+                            <img src="images/extracted-13.jpg" alt="Professional Pool Cue Canadian Maple">
+                            <a href="https://www.amazon.com/SYNCSHOT-Professional-Multi-Layer-Accessories-Selectable/dp/B0FF23TQ2H" target="_blank" class="testimonial-shop-btn" onclick="event.stopPropagation()">
+                                <svg viewBox="0 0 24 24"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"/></svg>
+                                Shop on Amazon
+                            </a>
+                        </div>
+                    </div>
+                    <div class="testimonial-quote">"</div>
+                    <div class="testimonial-review-title">
+                        <span class="title-text">Very good taco</span>
+                        <span class="expand-hint">Hover to read more →</span>
+                    </div>
+                    <p class="testimonial-text">
+                        I am very satisfied with this billiard taco set. The quality exceeded my expectations. The heel feels firm, well balanced and very comfortable to play, which greatly improves precision and control with each shot. It includes very useful accessories such as the case, chalk, gloves and tip tools, so everything you need comes in one package. The case is sturdy and protects the heel very well, ideal for storing and transporting it without problem.
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar avatar-3">L</div>
+                        <div class="author-info">
+                            <h4>Laritza Alfonso</h4>
+                            <p>Amazon Reviewer</p>
+                            <div class="verified-badge">
+                                <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+                                Verified Purchase
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section" id="contact">
+        <div class="container">
+            <div class="cta-box reveal">
+                <h2>READY TO ELEVATE YOUR GAME?</h2>
+                <p>Join the SYNCSHOT community and experience precision engineering at its finest</p>
+                <div class="cta-buttons">
+                    <a href="#products" class="btn btn-fire">Shop Now</a>
+                    <a href="#" class="btn btn-outline">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="logo">SYNCSHOT</a>
+                    <p>Engineering precision billiards cues for players who demand excellence. Carbon fiber technology meets master craftsmanship.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link" aria-label="Twitter">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" stroke="none">
+                                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Facebook">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="#1877F2" stroke="none">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <svg viewBox="0 0 24 24" width="20" height="20" stroke="none">
+                                <defs>
+                                    <linearGradient id="ig-grad" x1="0%" y1="100%" x2="100%" y2="0%">
+                                        <stop offset="0%" style="stop-color:#FFDC80"/>
+                                        <stop offset="25%" style="stop-color:#F77737"/>
+                                        <stop offset="50%" style="stop-color:#E1306C"/>
+                                        <stop offset="75%" style="stop-color:#C13584"/>
+                                        <stop offset="100%" style="stop-color:#833AB4"/>
+                                    </linearGradient>
+                                </defs>
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z" fill="url(#ig-grad)"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="YouTube">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="#FF0000" stroke="none">
+                                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Products</h4>
+                    <a href="carbon-fiber-series.html">Carbon Fiber Series</a>
+                    <a href="member-cues.html">American Pool Series</a>
+                    <a href="#cue-sets">Entry / Pro Series</a>
+                    <a href="#contact">Custom Orders</a>
+                </div>
+                <div class="footer-column">
+                    <h4>Support</h4>
+                    <a href="#">Warranty</a>
+                    <a href="#">Care Guide</a>
+                    <a href="#">FAQs</a>
+                    <a href="#">Shipping Info</a>
+                </div>
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <a href="#story">About Us</a>
+                    <a href="#story">Our Story</a>
+                    <a href="#contact">Sponsorships</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 SYNCSHOT. All rights reserved. Precision Meets Power.</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top -->
+    <button class="back-to-top" id="backToTop" onclick="scrollToTop()">↑</button>
+
+    <script>
+    // ========== TOURNAMENT BUNDLE S3 Image Switcher ==========
+    const cueset3Images = [
+        "images/extracted-22.jpg",
+        "images/extracted-23.jpg",
+        "images/extracted-24.jpg"
+    ];
+    let currentCueset3Index = 0;
+
+    function switchCueset3(index) {
+        currentCueset3Index = index;
+        const img = document.getElementById('cueset3-img');
+        const dots = img.parentElement.querySelectorAll('.image-dot');
+        img.style.opacity = '0';
+        setTimeout(() => {
+            img.src = cueset3Images[index];
+            img.style.opacity = '1';
+            dots.forEach((dot, i) => {
+                dot.style.background = i === index ? '#ff6b00' : 'rgba(255,255,255,0.4)';
+            });
+        }, 300);
+    }
+
+
+    // ========== PRO BUNDLE S2 Image Switcher ==========
+    const cueset2Images = [
+        "images/extracted-25.jpg",
+        "images/extracted-26.jpg",
+        "images/extracted-27.jpg"
+    ];
+    let currentCueset2Index = 0;
+
+    function switchCueset2(index) {
+        currentCueset2Index = index;
+        const img = document.getElementById('cueset2-img');
+        const dots = img.parentElement.querySelectorAll('.image-dot');
+        img.style.opacity = '0';
+        setTimeout(() => {
+            img.src = cueset2Images[index];
+            img.style.opacity = '1';
+            dots.forEach((dot, i) => {
+                dot.style.background = i === index ? '#ff6b00' : 'rgba(255,255,255,0.4)';
+            });
+        }, 300);
+    }
+
+
+        // ========== Navbar Scroll ==========
+        const navbar = document.getElementById('navbar');
+        const backToTop = document.getElementById('backToTop');
+
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            navbar.classList.toggle('scrolled', scrollY > 50);
+            backToTop.classList.toggle('visible', scrollY > 500);
+        });
+
+        // ========== Mobile Nav ==========
+        function toggleMobileNav() {
+            const nav = document.getElementById('mobileNav');
+            nav.classList.toggle('open');
+            document.body.style.overflow = nav.classList.contains('open') ? 'hidden' : '';
+        }
+
+        // ========== Smooth Scroll ==========
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // ========== Scroll to Top ==========
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ========== Scroll Reveal ==========
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+        // ========== Counter Animation ==========
+        function animateCounters() {
+            const stats = document.querySelectorAll('.stat-item h3');
+            stats.forEach(stat => {
+                const text = stat.textContent;
+                const match = text.match(/(\d+)/);
+                if (!match) return;
+
+                const target = parseInt(match[1]);
+                const suffix = text.replace(match[1], '');
+                let current = 0;
+                const increment = target / 60;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(timer);
+                    }
+                    stat.textContent = Math.floor(current) + suffix;
+                }, 25);
+            });
+        }
+
+        const heroObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    heroObserver.disconnect();
+                }
+            });
+        }, { threshold: 0.5 });
+
+        const heroStats = document.querySelector('.hero-stats');
+        if (heroStats) heroObserver.observe(heroStats);
+
+
+        /* ========== Hero Carousel ========== */
+        (function() {
+            const track = document.getElementById('carouselTrack');
+            const prevBtn = document.getElementById('carouselPrev');
+            const nextBtn = document.getElementById('carouselNext');
+            const dotsContainer = document.getElementById('carouselDots');
+            const carousel = document.getElementById('heroCarousel');
+
+            if (!track || !prevBtn || !nextBtn || !dotsContainer || !carousel) return;
+
+            const slides = track.querySelectorAll('.carousel-slide');
+            const dots = dotsContainer.querySelectorAll('.carousel-dot');
+            const totalSlides = slides.length;
+            let currentSlide = 0;
+            let autoPlayInterval = null;
+            let startX = 0;
+            let isDragging = false;
+
+            function goToSlide(index) {
+                if (index < 0) index = totalSlides - 1;
+                if (index >= totalSlides) index = 0;
+                currentSlide = index;
+                track.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
+                dots.forEach(function(dot, i) {
+                    dot.classList.toggle('active', i === currentSlide);
+                });
+            }
+
+            function nextSlide() {
+                goToSlide(currentSlide + 1);
+            }
+
+            function prevSlide() {
+                goToSlide(currentSlide - 1);
+            }
+
+            function startAutoPlay() {
+                stopAutoPlay();
+                autoPlayInterval = setInterval(nextSlide, 5000);
+            }
+
+            function stopAutoPlay() {
+                if (autoPlayInterval) {
+                    clearInterval(autoPlayInterval);
+                    autoPlayInterval = null;
+                }
+            }
+
+            // Button click handlers
+            prevBtn.addEventListener('click', function() {
+                prevSlide();
+                startAutoPlay();
+            });
+
+            nextBtn.addEventListener('click', function() {
+                nextSlide();
+                startAutoPlay();
+            });
+
+            // Dot click handlers
+            dots.forEach(function(dot) {
+                dot.addEventListener('click', function() {
+                    var index = parseInt(this.getAttribute('data-index'));
+                    goToSlide(index);
+                    startAutoPlay();
+                });
+            });
+
+            // Pause on hover, resume on leave
+            carousel.addEventListener('mouseenter', stopAutoPlay);
+            carousel.addEventListener('mouseleave', startAutoPlay);
+
+            // Touch/swipe support
+            carousel.addEventListener('touchstart', function(e) {
+                startX = e.touches[0].clientX;
+                isDragging = true;
+                stopAutoPlay();
+            }, { passive: true });
+
+            carousel.addEventListener('touchmove', function(e) {
+                if (!isDragging) return;
+            }, { passive: true });
+
+            carousel.addEventListener('touchend', function(e) {
+                if (!isDragging) return;
+                isDragging = false;
+                var endX = e.changedTouches[0].clientX;
+                var diff = startX - endX;
+                if (Math.abs(diff) > 50) {
+                    if (diff > 0) {
+                        nextSlide();
+                    } else {
+                        prevSlide();
+                    }
+                }
+                startAutoPlay();
+            }, { passive: true });
+
+            // Start auto-play
+            startAutoPlay();
+        })();
+
+        // Mobile dropdown toggle
+        document.querySelectorAll('.mobile-nav > a').forEach(link => {
+            if (link.nextElementSibling && link.nextElementSibling.classList.contains('mobile-sub-menu')) {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const subMenu = this.nextElementSibling;
+                    subMenu.style.display = subMenu.style.display === 'none' ? 'block' : 'none';
+                });
+            }
+        });
+
+    
+    // ========== Chalk Color Switcher ==========
+    const chalkImages = {
+        blue: 'images/extracted-28.jpg',
+        pink: 'images/extracted-29.jpg'
+    };
+
+    function switchChalkColor(color) {
+        const img = document.getElementById('chalk-img');
+        if (!img) return;
+        
+        // Fade out
+        img.style.opacity = '0';
+        setTimeout(() => {
+            img.src = chalkImages[color];
+            img.alt = '10A Nano Pool Cue Chalk - ' + color.charAt(0).toUpperCase() + color.slice(1);
+            // Fade in
+            img.style.opacity = '1';
+        }, 300);
+        
+        // Update dots
+        document.querySelectorAll('.color-dot').forEach(dot => {
+            dot.style.borderColor = 'rgba(255,255,255,0.3)';
+            dot.classList.remove('active');
+        });
+        const activeDot = document.getElementById('dot-' + color);
+        if (activeDot) {
+            activeDot.style.borderColor = '#fff';
+            activeDot.classList.add('active');
+        }
+    }
+    
+    // ========== Tip Tool Image Switcher ==========
+    const tipToolImages = [
+        'images/extracted-30.jpg',
+        'images/extracted-31.jpg'
+    ];
+
+    function switchTipToolImg(index) {
+        const img = document.getElementById('tiptool-img');
+        if (!img) return;
+        img.style.opacity = '0';
+        setTimeout(() => {
+            img.src = tipToolImages[index];
+            img.style.opacity = '1';
+        }, 300);
+        document.querySelectorAll('.tiptool-dot').forEach((dot, i) => {
+            dot.style.borderColor = i === index ? '#fff' : 'rgba(255,255,255,0.3)';
+            dot.style.background = i === index ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.5)';
+            dot.classList.toggle('active', i === index);
+        });
+    }
+
+    
+    // ========== CF Elite Image Switcher ==========
+    const cfEliteImages = [
+        'images/extracted-33.jpg',
+        'images/extracted-32.jpg',
+        'images/extracted-34.jpg'
+    ];
+
+    function switchCfEliteImg(index) {
+        const img = document.getElementById('cf-elite-img');
+        if (!img) return;
+        img.style.opacity = '0';
+        setTimeout(() => {
+            img.src = cfEliteImages[index];
+            img.style.opacity = '1';
+        }, 300);
+        document.querySelectorAll('.cf-elite-dot').forEach((dot, i) => {
+            dot.style.borderColor = i === index ? '#fff' : 'rgba(255,255,255,0.3)';
+            dot.style.background = i === index ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.5)';
+            dot.classList.toggle('active', i === index);
+        });
+    }
+
+    
+    // ========== CF Stealth Image Switcher ==========
+    const cfStealthImages = [
+        'images/extracted-35.jpg',
+        'images/extracted-36.jpg',
+        'images/extracted-37.jpg'
+    ];
+    function switchCfStealthImg(index) {
+        const img = document.getElementById('cf-stealth-img');
+        if (!img) return;
+        img.style.opacity = '0';
+        setTimeout(() => { img.src = cfStealthImages[index]; img.style.opacity = '1'; }, 300);
+        document.querySelectorAll('.cf-stealth-dot').forEach((dot, i) => {
+            dot.style.borderColor = i === index ? '#fff' : 'rgba(255,255,255,0.3)';
+            dot.style.background = i === index ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.5)';
+        });
+    }
+
+    
+    // ========== CF Titan Image Switcher ==========
+    const cfTitanImages = [
+        'images/extracted-38.jpg',
+        'images/extracted-39.jpg',
+        'images/extracted-40.jpg'
+    ];
+    function switchCfTitanImg(index) {
+        const img = document.getElementById('cf-titan-img');
+        if (!img) return;
+        img.style.opacity = '0';
+        setTimeout(() => { img.src = cfTitanImages[index]; img.style.opacity = '1'; }, 300);
+        document.querySelectorAll('.cf-titan-dot').forEach((dot, i) => {
+            dot.style.borderColor = i === index ? '#fff' : 'rgba(255,255,255,0.3)';
+            dot.style.background = i === index ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.5)';
+        });
+    }
+
+    
+    // ========== Featured 1 Image Switcher ==========
+    const feat1Images = [
+        'images/extracted-41.jpg',
+        'images/extracted-42.jpg',
+        'images/extracted-43.jpg'
+    ];
+    function switchFeatured1Img(index) {
+        const img = document.getElementById('featured-1-img');
+        if (!img) return;
+        img.style.opacity = '0';
+        setTimeout(() => { img.src = feat1Images[index]; img.style.opacity = '1'; }, 300);
+        document.querySelectorAll('.feat1-dot').forEach((dot, i) => {
+            dot.style.borderColor = i === index ? '#fff' : 'rgba(255,255,255,0.3)';
+            dot.style.background = i === index ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.5)';
+        });
+    }
+
+    
+    // ========== Featured 2 Image Switcher ==========
+    const feat2Images = [
+        "images/feat2-new-1.jpg",
+        "images/extracted-45.jpg",
+        "images/extracted-46.jpg"
+    ]
+    function switchFeatured2Img(index) {
+        const img = document.getElementById('featured-2-img');
+        if (!img) return;
+        img.style.opacity = '0';
+        setTimeout(() => { img.src = feat2Images[index]; img.style.opacity = '1'; }, 300);
+        document.querySelectorAll('.feat2-dot').forEach((dot, i) => {
+            dot.style.borderColor = i === index ? '#fff' : 'rgba(255,255,255,0.3)';
+            dot.style.background = i === index ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.5)';
+        });
+    }
+
+    
+    // ========== Featured 3 Image Switcher ==========
+    const feat3Images = [
+        'images/extracted-47.jpg',
+        'images/extracted-48.jpg',
+        'images/extracted-49.jpg'
+    ];
+    function switchFeatured3Img(index) {
+        const img = document.getElementById('featured-3-img');
+        if (!img) return;
+        img.style.opacity = '0';
+        setTimeout(() => { img.src = feat3Images[index]; img.style.opacity = '1'; }, 300);
+        document.querySelectorAll('.feat3-dot').forEach((dot, i) => {
+            dot.style.borderColor = i === index ? '#fff' : 'rgba(255,255,255,0.3)';
+            dot.style.background = i === index ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.5)';
+        });
+    }
+
+    
+    // ========== BJ1 Image Switcher ==========
+    const bj1Images = [
+        "images/extracted-50.jpg",
+        "images/extracted-51.jpg",
+        "images/extracted-52.jpg",
+        "images/bj-1-4.jpg"
+    ]
+    function switchBj1Img(index) {
+        const img = document.getElementById('bj-1-img');
+        if (!img) return;
+        img.style.opacity = '0';
+        setTimeout(() => { img.src = bj1Images[index]; img.style.opacity = '1'; }, 300);
+        document.querySelectorAll('.bj1-dot').forEach((dot, i) => {
+            dot.style.borderColor = i === index ? '#fff' : 'rgba(255,255,255,0.3)';
+            dot.style.background = i === index ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.5)';
+        });
+    }
+
+    
+    // ========== BJ2 Image Switcher ==========
+    const bj2Images = [
+        "images/extracted-53.jpg",
+        "images/extracted-54.jpg",
+        "images/extracted-55.jpg",
+        "images/bj-2-4.jpg"
+    ]
+    function switchBj2Img(index) {
+        const img = document.getElementById('bj-2-img');
+        if (!img) return;
+        img.style.opacity = '0';
+        setTimeout(() => { img.src = bj2Images[index]; img.style.opacity = '1'; }, 300);
+        document.querySelectorAll('.bj2-dot').forEach((dot, i) => {
+            dot.style.borderColor = i === index ? '#fff' : 'rgba(255,255,255,0.3)';
+            dot.style.background = i === index ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.5)';
+        });
+    }
+
+    
+    // ========== BJ3 Image Switcher ==========
+    const bj3Images = [
+        "images/extracted-56.jpg",
+        "images/extracted-57.jpg",
+        "images/extracted-58.jpg",
+        "images/bj-3-4.jpg"
+    ]
+    function switchBj3Img(index) {
+        const img = document.getElementById('bj-3-img');
+        if (!img) return;
+        img.style.opacity = '0';
+        setTimeout(() => { img.src = bj3Images[index]; img.style.opacity = '1'; }, 300);
+        document.querySelectorAll('.bj3-dot').forEach((dot, i) => {
+            dot.style.borderColor = i === index ? '#fff' : 'rgba(255,255,255,0.3)';
+            dot.style.background = i === index ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.5)';
+        });
+    }
+
+    
+    // ========== Cue Set 1 Image Switcher ==========
+    const cueset1Images = [
+        "images/extracted-59.jpg",
+        "images/extracted-60.jpg",
+        "images/extracted-61.jpg"
+    ];
+    function switchCueSet1Img(index) {
+        const img = document.getElementById('cueset1-img');
+        if (!img) return;
+        img.style.opacity = '0';
+        setTimeout(() => { img.src = cueset1Images[index]; img.style.opacity = '1'; }, 300);
+        document.querySelectorAll('.cueset1-dot').forEach((dot, i) => {
+            dot.style.borderColor = i === index ? '#fff' : 'rgba(255,255,255,0.3)';
+            dot.style.background = i === index ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.5)';
+        });
+    }
+
+    
+    // ========== Image Lightbox ==========
+    let currentLightboxImages = [];
+    let currentLightboxIndex = 0;
+
+    function openLightbox(images, index) {
+        currentLightboxImages = images;
+        currentLightboxIndex = index;
+        const overlay = document.getElementById('lightboxOverlay');
+        const img = document.getElementById('lightboxImage');
+        const dotsContainer = document.getElementById('lightboxDots');
+        
+        img.src = images[index];
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        
+        // Create dots
+        dotsContainer.innerHTML = '';
+        images.forEach((_, i) => {
+            const dot = document.createElement('button');
+            dot.className = 'lightbox-dot' + (i === index ? ' active' : '');
+            dot.onclick = () => lightboxGoTo(i);
+            dotsContainer.appendChild(dot);
+        });
+    }
+
+    function closeLightbox(event) {
+        if (event && event.target !== event.currentTarget) return;
+        const overlay = document.getElementById('lightboxOverlay');
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    // Testimonial product image lightbox (single image)
+    function openTestimonialLightbox(src) {
+        openLightbox([src], 0);
+    }
+
+    function lightboxPrev() {
+        currentLightboxIndex = (currentLightboxIndex - 1 + currentLightboxImages.length) % currentLightboxImages.length;
+        updateLightbox();
+    }
+
+    function lightboxNext() {
+        currentLightboxIndex = (currentLightboxIndex + 1) % currentLightboxImages.length;
+        updateLightbox();
+    }
+
+    function lightboxGoTo(index) {
+        currentLightboxIndex = index;
+        updateLightbox();
+    }
+
+    function updateLightbox() {
+        const img = document.getElementById('lightboxImage');
+        img.style.opacity = '0';
+        setTimeout(() => {
+            img.src = currentLightboxImages[currentLightboxIndex];
+            img.style.opacity = '1';
+        }, 150);
+        
+        const dots = document.querySelectorAll('.lightbox-dot');
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('active', i === currentLightboxIndex);
+        });
+    }
+
+    // Keyboard navigation
+    
+        // Professional Cues lightbox
+        var m1Img=document.getElementById('member-m1-img');
+        if(m1Img){m1Img.style.cursor='pointer';m1Img.addEventListener('click',function(){openLightbox(memberM1Images,0);});}
+        var m2Img=document.getElementById('member-m2-img');
+        if(m2Img){m2Img.style.cursor='pointer';m2Img.addEventListener('click',function(){openLightbox(memberM2Images,0);});}
+        var m3Img=document.getElementById('member-m3-img');
+        if(m3Img){m3Img.style.cursor='pointer';m3Img.addEventListener('click',function(){openLightbox(memberM3Images,0);});}
+
+    document.addEventListener('keydown', (e) => {
+        const overlay = document.getElementById('lightboxOverlay');
+        if (!overlay.classList.contains('active')) return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') lightboxPrev();
+        if (e.key === 'ArrowRight') lightboxNext();
+    });
+
+    
+    // ========== Professional Cue Image Carousel ==========
+        const memberM1Images = [
+        'images/member-classic-2.jpg',
+        'images/extracted-62.jpg',
+        'images/member-classic-3.jpg'
+    ];
+    const memberM2Images = [
+        'images/extracted-63.jpg',
+        'images/member-royal-2.jpg',
+        'images/member-royal-3.jpg'
+    ];
+    const memberM3Images = [
+        'images/extracted-64.jpg',
+        'images/member-signature-2.jpg',
+        'images/member-signature-3.jpg'
+    ];
+
+    function switchMemberM1(index) {
+        const img = document.getElementById('member-m1-img');
+        const dots = img.parentElement.querySelectorAll('.image-dot');
+        img.style.opacity = '0';
+        img.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            img.src = memberM1Images[index];
+            img.style.opacity = '1';
+            img.style.transform = 'scale(1)';
+            dots.forEach((dot, i) => {
+                if(i === index) {
+                    dot.style.background = '#d4a853';
+                    dot.style.transform = 'scale(1.3)';
+                    dot.style.boxShadow = '0 0 8px rgba(212,168,83,0.5)';
+                } else {
+                    dot.style.background = 'rgba(255,255,255,0.3)';
+                    dot.style.transform = 'scale(1)';
+                    dot.style.boxShadow = '0 0 0 rgba(212,168,83,0)';
+                }
+            });
+        }, 400);
+    }
+    function switchMemberM2(index) {
+        const img = document.getElementById('member-m2-img');
+        const dots = img.parentElement.querySelectorAll('.image-dot');
+        img.style.opacity = '0';
+        img.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            img.src = memberM2Images[index];
+            img.style.opacity = '1';
+            img.style.transform = 'scale(1)';
+            dots.forEach((dot, i) => {
+                if(i === index) {
+                    dot.style.background = '#d4a853';
+                    dot.style.transform = 'scale(1.3)';
+                    dot.style.boxShadow = '0 0 8px rgba(212,168,83,0.5)';
+                } else {
+                    dot.style.background = 'rgba(255,255,255,0.3)';
+                    dot.style.transform = 'scale(1)';
+                    dot.style.boxShadow = '0 0 0 rgba(212,168,83,0)';
+                }
+            });
+        }, 400);
+    }
+    function switchMemberM3(index) {
+        const img = document.getElementById('member-m3-img');
+        const dots = img.parentElement.querySelectorAll('.image-dot');
+        img.style.opacity = '0';
+        img.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            img.src = memberM3Images[index];
+            img.style.opacity = '1';
+            img.style.transform = 'scale(1)';
+            dots.forEach((dot, i) => {
+                if(i === index) {
+                    dot.style.background = '#d4a853';
+                    dot.style.transform = 'scale(1.3)';
+                    dot.style.boxShadow = '0 0 8px rgba(212,168,83,0.5)';
+                } else {
+                    dot.style.background = 'rgba(255,255,255,0.3)';
+                    dot.style.transform = 'scale(1)';
+                    dot.style.boxShadow = '0 0 0 rgba(212,168,83,0)';
+                }
+            });
+        }, 400);
+    }
+
+    // ========== Story Image Carousel ==========
+    const storyImages = ['images/story-1.jpg','images/story-2.jpg'];
+    function switchStoryImg(index) {
+        const img = document.getElementById('story-img');
+        const dots = img.parentElement.querySelectorAll('.story-dot');
+        img.style.opacity = '0';
+        setTimeout(() => {
+            img.src = storyImages[index]; img.style.opacity = '1';
+            dots.forEach((dot, i) => {
+                if(i===index){dot.style.background='#ff6b2c';dot.style.transform='scale(1.3)';dot.style.boxShadow='0 0 8px rgba(255,107,44,0.5)';}
+                else{dot.style.background='rgba(255,255,255,0.3)';dot.style.transform='scale(1)';dot.style.boxShadow='0 0 0 rgba(255,107,44,0)';}
+            });
+        }, 500);
+    }
+
+    // ========== Particle Background Animation ==========
+    (function() {
+        const canvas = document.createElement('canvas');
+        canvas.id = 'particles-canvas';
+        document.body.insertBefore(canvas, document.body.firstChild);
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let animationId;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.3;
+                this.speedY = (Math.random() - 0.5) * 0.3;
+                this.opacity = Math.random() * 0.5 + 0.2;
+                this.color = Math.random() > 0.5 ? 'rgba(255, 107, 44,' : 'rgba(0, 229, 255,';
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+                    this.reset();
+                }
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color + this.opacity + ')';
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            const count = Math.min(80, Math.floor((canvas.width * canvas.height) / 15000));
+            particles = [];
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle());
+            }
+        }
+        initParticles();
+        window.addEventListener('resize', initParticles);
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            // Draw connections
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 120) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = 'rgba(255, 107, 44,' + (0.1 * (1 - dist / 120)) + ')';
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+            }
+            animationId = requestAnimationFrame(animate);
+        }
+        animate();
+    })();
+
+    // ========== Button Ripple Effect ==========
+    document.querySelectorAll('.btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            const rect = this.getBoundingClientRect();
+            const ripple = document.createElement('span');
+            ripple.className = 'ripple';
+            ripple.style.left = (e.clientX - rect.left) + 'px';
+            ripple.style.top = (e.clientY - rect.top) + 'px';
+            this.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
+        });
+    });
+
+    // ========== Hover Auto-Carousel System ==========
+    const mainCarouselConfigs = [
+        { imgId: 'cueset3-img', images: cueset3Images, switchFn: switchCueset3 },
+        { imgId: 'cueset2-img', images: cueset2Images, switchFn: switchCueset2 },
+        { imgId: 'tiptool-img', images: tipToolImages, switchFn: switchTipToolImg },
+        { imgId: 'cf-elite-img', images: cfEliteImages, switchFn: switchCfEliteImg },
+        { imgId: 'cf-stealth-img', images: cfStealthImages, switchFn: switchCfStealthImg },
+        { imgId: 'cf-titan-img', images: cfTitanImages, switchFn: switchCfTitanImg },
+        { imgId: 'featured-1-img', images: feat1Images, switchFn: switchFeatured1Img },
+        { imgId: 'featured-2-img', images: feat2Images, switchFn: switchFeatured2Img },
+        { imgId: 'featured-3-img', images: feat3Images, switchFn: switchFeatured3Img },
+        { imgId: 'bj-1-img', images: bj1Images, switchFn: switchBj1Img },
+        { imgId: 'bj-2-img', images: bj2Images, switchFn: switchBj2Img },
+        { imgId: 'bj-3-img', images: bj3Images, switchFn: switchBj3Img },
+        { imgId: 'cueset1-img', images: cueset1Images, switchFn: switchCueSet1Img },
+        { imgId: 'member-m1-img', images: memberM1Images, switchFn: switchMemberM1 },
+        { imgId: 'member-m2-img', images: memberM2Images, switchFn: switchMemberM2 },
+        { imgId: 'member-m3-img', images: memberM3Images, switchFn: switchMemberM3 }
+    ];
+
+    const mainCarouselTimers = {};
+
+    mainCarouselConfigs.forEach(function(config) {
+        var imgEl = document.getElementById(config.imgId);
+        if (!imgEl) return;
+        var imageContainer = imgEl.closest('.product-image');
+        if (!imageContainer) return;
+
+        config._currentIndex = 0;
+        var originalSwitch = config.switchFn;
+        config.switchFn = function(index) {
+            config._currentIndex = index;
+            originalSwitch(index);
+        };
+
+        imageContainer.addEventListener('mouseenter', function() {
+            config._currentIndex = 0;
+            config.switchFn(0);
+            mainCarouselTimers[config.imgId] = setInterval(function() {
+                config._currentIndex = (config._currentIndex + 1) % config.images.length;
+                config.switchFn(config._currentIndex);
+            }, 3000);
+        });
+
+        imageContainer.addEventListener('mouseleave', function() {
+            if (mainCarouselTimers[config.imgId]) {
+                clearInterval(mainCarouselTimers[config.imgId]);
+                delete mainCarouselTimers[config.imgId];
+            }
+        });
+
+        var dots = imageContainer.querySelectorAll('.image-dot');
+        dots.forEach(function(dot) {
+            dot.addEventListener('click', function() {
+                if (mainCarouselTimers[config.imgId]) {
+                    clearInterval(mainCarouselTimers[config.imgId]);
+                    delete mainCarouselTimers[config.imgId];
+                }
+            });
+        });
+    });
+
+    // ========== 滚动动画 ==========
+    const scrollObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => {
+                    entry.target.classList.add('revealed');
+                }, index * 100);
+                scrollObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    // 给section标题添加滚动动画
+    document.querySelectorAll('.section-header, .stats-item, .process-step').forEach(el => {
+        el.classList.add('scroll-reveal');
+        scrollObserver.observe(el);
+    });
+    // 给产品卡片添加滚动动画
+    document.querySelectorAll('.product-card').forEach((el, i) => {
+        el.classList.add(i % 2 === 0 ? 'scroll-reveal-left' : 'scroll-reveal-right');
+        scrollObserver.observe(el);
+    });
+    // 给craftsmanship区域添加缩放动画
+    document.querySelectorAll('.craft-feature, .process-step').forEach(el => {
+        el.classList.add('scroll-reveal-scale');
+        scrollObserver.observe(el);
+    });
+
+    // ========== 数字滚动计数 ==========
+    const counterObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const el = entry.target;
+                const text = el.textContent;
+                const match = text.match(/(\d[\d,]*)/);
+                if (match) {
+                    const target = parseInt(match[1].replace(/,/g, ''));
+                    const suffix = text.replace(match[1], '');
+                    const prefix = text.substring(0, text.indexOf(match[1]));
+                    let current = 0;
+                    const step = Math.ceil(target / 60);
+                    const timer = setInterval(() => {
+                        current += step;
+                        if (current >= target) {
+                            current = target;
+                            clearInterval(timer);
+                        }
+                        el.textContent = prefix + current.toLocaleString() + suffix;
+                    }, 25);
+                }
+                counterObserver.unobserve(el);
+            }
+        });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('.stats-number').forEach(el => counterObserver.observe(el));
+
+    // ========== 文字动画 ==========
+    function initTextAnimate() {
+        const textObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    // 跳过有HTML子元素的hero h1（含span/br等）
+                    if (el.querySelector('span, br')) {
+                        el.classList.add('animate');
+                        textObserver.unobserve(el);
+                        return;
+                    }
+                    const text = el.textContent;
+                    el.innerHTML = '';
+                    el.classList.add('animate');
+                    [...text].forEach((char, i) => {
+                        const span = document.createElement('span');
+                        span.classList.add('char');
+                        span.textContent = char === ' ' ? '\u00A0' : char;
+                        span.style.transitionDelay = `${i * 0.03}s`;
+                        el.appendChild(span);
+                    });
+                    textObserver.unobserve(el);
+                }
+            });
+        }, { threshold: 0.3 });
+        // 给section标题添加文字动画（不含hero h1，因为它有span子元素）
+        document.querySelectorAll('.section-header h2').forEach(el => {
+            el.classList.add('text-animate');
+            textObserver.observe(el);
+        });
+    }
+    initTextAnimate();
+
+    // ========== 卡片光效 ==========
+    document.querySelectorAll('.product-card').forEach(card => {
+        // 添加光效元素
+        const glow = document.createElement('div');
+        glow.classList.add('card-glow');
+        card.appendChild(glow);
+        const borderGlow = document.createElement('div');
+        borderGlow.classList.add('card-border-glow');
+        card.appendChild(borderGlow);
+
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--glow-x', x + 'px');
+            card.style.setProperty('--glow-y', y + 'px');
+        });
+    });
+
+    </script>
+
+    
+    
+    <!-- Lightbox Overlay -->
+    <div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox(event)">
+        <div class="lightbox-container" onclick="event.stopPropagation()">
+            <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+            <button class="lightbox-nav lightbox-prev" onclick="lightboxPrev()">&#10094;</button>
+            <img class="lightbox-image" id="lightboxImage" src="" alt="Product Preview">
+            <button class="lightbox-nav lightbox-next" onclick="lightboxNext()">&#10095;</button>
+            <div class="lightbox-dots" id="lightboxDots"></div>
+        </div>
+    </div>
+
+</body>
+</html>
